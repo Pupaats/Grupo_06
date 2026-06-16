@@ -1,6 +1,6 @@
 package grupo_06;
 
-//La idea es que al lado izquierdo vayan los reclamos con codigo menor y la der los mayores
+//La idea es que al lado izquierdo vayan los reclamos con codigo menor y la der los mayores.
 
 public class NodoArbol {
     Reclamos reclamo;

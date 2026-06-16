@@ -73,7 +73,7 @@ public class Arbol {
             posicion++; //Avanzar a la siguiente posicion
         }
         //Aqui evalua, la palabra con menor valor numerico va a la izquierda
-        // y la con mayor valor numerico a la derecha
+        // y la con mayor valor numerico a la derecha.
         if(valor1 < valor2){
             return true;
         }else{
