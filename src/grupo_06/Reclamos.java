@@ -1,8 +1,6 @@
 package grupo_06;
 
-public class Reclamos {
-    
-public class Reclamo { // no se si estan deacuerdo con los nombres de las variables, si encuentran que esta muy corto lo cambian nomas
+public class Reclamos { 
     private String codigoUnico; 
     private String Nombre;
     private String Rut;
@@ -14,12 +12,12 @@ public class Reclamo { // no se si estan deacuerdo con los nombres de las variab
     private String fechaLimite;
 
     // Constructor
-    public Reclamo(String codigoUnico, String nombreCiudadano, String rutCiudadano, 
+    public Reclamos(String codigoUnico, String nombreCiudadano, String rutCiudadano, 
                    String tipoReclamo, String descripcion, String fechaIngreso, 
                    String estadoReclamo, int nivelPrioridad, String fechaLimite) {
         this.codigoUnico = codigoUnico;
         this.Nombre = Nombre;
-        this.Rut = Rut;
+        this.Rut = Rut;   
         this.tipoReclamo = tipoReclamo;
         this.descripcion = descripcion;
         this.fechaIngreso = fechaIngreso;
@@ -105,9 +103,17 @@ public class Reclamo { // no se si estan deacuerdo con los nombres de las variab
         
         
     
+        public void mostrarInfo(){
+            System.out.println("Informacion del reclamo");
+            System.out.println("Codigo:" + codigoUnico);
+            System.out.println("Nombre:" + Nombre);
+            System.out.println("Rut:" + Rut);
+            System.out.println("Tipo:" + tipoReclamo);
+        }
+        
 }
 
 
 
 
-}
+
