@@ -17,7 +17,7 @@ public class Pila {
         if(pilita.isEmpty()){
             return null;
         } else{
-            System.out.println("Se ha eliminado este reclamo: "+ pilita.peek());
+            System.out.println("Se ha eliminado este reclamo: "+ pilita.pop());
             return pilita.pop();
         }
     }
