@@ -9,42 +9,42 @@ public class Pila {
         this.pilita = new Stack<>();
     }
 
-    public void insertar(Reclamos reclamos) {
+    public void InsertarCambioReclamo(Reclamos reclamos) {
         pilita.push(reclamos);
     }
 
-    public Reclamos eliminar() {
+    public Reclamos eliminarCambioReclamo() {
         if(pilita.isEmpty()){
             return null;
         } else{
-            System.out.println("Se ha eliminado este reclamo: "+ pilita.pop());
+            System.out.println("Se ha eliminado el siguiente cambio: "+ pilita.pop());
             return pilita.pop();
         }
     }
 
-    public Reclamos verTope() {
+    public Reclamos verCambioMasReciente() {
         Reclamos tope = pilita.peek();
-            System.out.println("El ultiimo reclamo que se ha ingresado es: "+ tope);
+            System.out.println("El ultimo cambio que se ha ingresado es: "+ tope);
         return tope;
     }
 
-    public boolean estaVacia() {
+    public boolean PilaVacia() {
         return pilita.isEmpty();
     }
 
-    public void mostrarPila() {
+    public void mostrarHistorialCambios() {
         if (pilita.isEmpty()) {
-            System.out.println("La pila se encuentra vacía.");
+            System.out.println("No hubo cambios en los reclamos.");
         }else{
-            System.out.println("Los reclamos presentes son: ");
+            System.out.println("Los cambios que se han hecho son: ");
             for(Reclamos reclamo:pilita){
                 System.out.println(reclamo);
             }
         }
     }
 
-    public int NumeroReclamos(){
-            System.out.println("La cantidad reclamos existentes es:"+ pilita.size());
+    public int NumeroCambiosReclamos(){
+            System.out.println("La cantidad de cambios que se han hecho a los reclamos es:"+ pilita.size());
         return pilita.size();
     }
 
