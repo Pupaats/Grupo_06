@@ -55,6 +55,55 @@ public class Arbol {
         return null;
     }
     
+    //Ordenamientos InOrden, PreOrden, PostOrden
+    
+    private void InOrden(NodoArbol nodo){
+        if(nodo != null){ 
+            InOrden(nodo.getIzquierda());
+            System.out.println(nodo);
+            InOrden(nodo.getDerecha());
+        }
+    }
+    public void MostrarInOrden(){
+        if(raiz==null){ // Si es nulo, no hay elementos 
+            System.out.println("No existen reclamos");
+        } else {
+            InOrden(raiz);
+        }
+    }
+    
+    
+    private void PreOrden(NodoArbol nodo){
+        if(nodo!=null){ 
+            System.out.println(nodo);
+            PreOrden(nodo.getDerecha());
+            PreOrden(nodo.getIzquierda());
+        }
+    }
+    public void MostrarPreOrden(){
+        if(raiz==null){ // Si es nulo, no hay elementos  x2
+            System.out.println("No existen reclamos");
+        } else {
+            PreOrden(raiz);
+        }
+    }
+    
+    
+    private void PostOrden(NodoArbol nodo){
+        if(nodo!=null){
+            PostOrden(nodo.getIzquierda());
+            PostOrden(nodo.getDerecha());
+            System.out.println(nodo);
+        }
+    }
+    public void MostrarPostOrden(){
+        if(raiz==null){  // Si es nulo, no hay elementos  x3
+            System.out.println("No existen reclamos");
+        } else {
+            PostOrden(raiz);
+        }
+    }
+    
     
     
     public static boolean comparandoAscii(char [] cadena, char[] comparando){
