@@ -15,3 +15,5 @@ public class NodoArbol {
         this.derecha = null;
     }
 }
+
+//complejidad general de la clase NodoArbol: 0(1)

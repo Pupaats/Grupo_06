@@ -49,4 +49,5 @@ public class Pila {
     }
 
 }  
+//complejidad general de la clase pila: 0(1)
 

@@ -12,3 +12,4 @@ public class NodoLista {
         this.siguiente = null;
     }
 }
+//compplejidades de NodoLista: 0(1)

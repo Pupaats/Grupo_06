@@ -29,3 +29,9 @@ public class Arbol {
         return nodo;
     }
 }
+//comeplejidad del arbol:
+/*
+    se requiere visualizar el como queda el arbol:
+    caso promedio: 0(log n)
+    peor caso: 0(n)
+ */

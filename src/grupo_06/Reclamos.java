@@ -111,7 +111,7 @@ public class Reclamos {
             System.out.println("Tipo:" + tipoReclamo);
         }
         
-}
+}//complejidad general de la clase reclamos: 0(1)
 
 
 
