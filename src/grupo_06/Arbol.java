@@ -1,6 +1,8 @@
 package grupo_06;
 
 public class Arbol {
+    //Este arbol es de tipo Binary Search Tree (BST), podiamos haber hecho un AVL pero como soy tonto elegi este.
+   
     private NodoArbol raiz;
     
     public Arbol(){
@@ -15,18 +17,20 @@ public class Arbol {
             return new NodoArbol(reclamo);
         }
         //Aqui obtiene el valor numerico y compara
-        int codigoNuevo = reclamo.getCodigoUnico();
-        int codigoActual = nodo.reclamo.getCodigoUnico();
+        char[] charNuevo = reclamo.getCodigoUnico().toCharArray();
+        char[] charActual = nodo.reclamo.getCodigoUnico().toCharArray();
         
-        if(codigoNuevo < codigoActual){
+        if(comparandoAscii(charNuevo, charActual)){
             nodo.izquierda = insertarRecursivo(nodo.izquierda, reclamo);
             //Si es menor inserta en el lado izquierdo
-        } else if (codigoNuevo > codigoActual){
+        } else if (comparandoAscii(charActual, charNuevo)){
             nodo.derecha = insertarRecursivo(nodo.derecha, reclamo);
             //Si es mayor inserta en el derecho
         } else {
             System.out.println("Ya existe este reclamo" + reclamo.getCodigoUnico());
-            //Si ya habia un reclamo, no permite que se repita
+            // Si ninguno es menor que el otro asume que son iguales
+            // y como ya hay uno igual entonces no permite que se repita
+
         }
         return nodo;
         }
@@ -53,6 +57,52 @@ public class Arbol {
         }
         System.out.println("No se encontro el reclamo");
         return null;
+    }
+    
+    
+    private NodoArbol encontrarMinimo(NodoArbol nodo){
+    while(nodo.izquierda != null){
+        nodo = nodo.izquierda;
+    }    
+    return nodo;
+    }
+    
+    
+    public void eliminar (String codigoUnico){
+        raiz = eliminarRecursivo(raiz, codigoUnico);
+    }
+    private NodoArbol eliminarRecursivo(NodoArbol nodo, String codigoUnico){
+        if(nodo == null) return null; // Por si no encuentra
+        //aqui convierte los Strings en arrays de caracteres para comparar con el Ascii
+        char[] charCodigoBuscado = codigoUnico.toCharArray();
+        char[]  charCodigoNodo = nodo.reclamo.getCodigoUnico().toCharArray();
+        //luego evalua la direccion usando el Ascii
+        if(comparandoAscii(charCodigoBuscado, charCodigoNodo)){
+            // si es menor va para la izquierda
+            nodo.izquierda = eliminarRecursivo(nodo.izquierda, codigoUnico);
+        } else if (comparandoAscii(charCodigoNodo, charCodigoBuscado)){
+            // si el codigo del nodo es mayor, va para la derecha
+            nodo.derecha = eliminarRecursivo(nodo.derecha, codigoUnico);
+        } else {
+            //casos de eliminacion, caso 1 nodo hoja
+            if(nodo.izquierda == null && nodo.derecha == null){
+                return null; 
+            }
+            // caso 2 , solo tiene hijo derecho
+            if(nodo.izquierda == null){
+                return nodo.derecha;
+            } 
+            // caso 2.5, solo tiene hijo izquierdo
+            if(nodo.derecha == null){
+                return nodo.izquierda;
+            }
+            // caso 3, tiene 2 hijos , busca el siguiente en inorden 
+            NodoArbol siguiente = encontrarMinimo(nodo.derecha);
+            nodo.reclamo = siguiente.reclamo; // aqui copia los datos del siguiente
+            //Elimina el siguiente del arbol derecho
+            nodo.derecha = eliminarRecursivo(nodo.derecha, siguiente.reclamo.getCodigoUnico());
+        }
+        return nodo;
     }
     
     //Ordenamientos InOrden, PreOrden, PostOrden
