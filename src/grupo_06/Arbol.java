@@ -4,10 +4,12 @@ public class Arbol {
     //Este arbol es de tipo Binary Search Tree (BST), podiamos haber hecho un AVL pero como soy tonto elegi este.
    
     private NodoArbol raiz;
-    
+    // Constructor del arbol vacio
     public Arbol(){
         this.raiz = null;
     }
+    
+    // Inserta recursivamente un reclamo usando su codigo unico con complejidad O(log n) promedio
     public void insertar(Reclamos reclamo){
         raiz = insertarRecursivo(raiz, reclamo);
     }
@@ -35,7 +37,7 @@ public class Arbol {
         return nodo;
         }
     
-
+    // Buscar tambien es O(log n) en caso promedio
     public Reclamos buscar(String Nombre){
         if(raiz == null){
             System.out.println("No existe el reclamo");
@@ -54,20 +56,21 @@ public class Arbol {
             } else {
                 actual = actual.getDerecha();// Baja por el subárbol derecho
             }
-        }
+        } 
+        
         System.out.println("No se encontro el reclamo");
         return null;
     }
     
-    
+    // Este tiene una complejidad dependiendo de la altura del arbol algo asi como O(h) si h fuera la altura. no estoy seguro si es lo mismo que O(N)
     private NodoArbol encontrarMinimo(NodoArbol nodo){
     while(nodo.izquierda != null){
         nodo = nodo.izquierda;
-    }    
+    }   
     return nodo;
     }
     
-    
+    // El metodo eliminar tiene una complejidad de O(log n) promedio, al igual que los otros 2
     public void eliminar (String codigoUnico){
         raiz = eliminarRecursivo(raiz, codigoUnico);
     }
@@ -100,12 +103,14 @@ public class Arbol {
             NodoArbol siguiente = encontrarMinimo(nodo.derecha);
             nodo.reclamo = siguiente.reclamo; // aqui copia los datos del siguiente
             //Elimina el siguiente del arbol derecho
-            nodo.derecha = eliminarRecursivo(nodo.derecha, siguiente.reclamo.getCodigoUnico());
+            nodo.derecha = eliminarRecursivo(nodo.derecha,
+                    siguiente.reclamo.getCodigoUnico());
         }
         return nodo;
     }
     
-    //Ordenamientos InOrden, PreOrden, PostOrden
+    //Ordenamientos InOrden, PreOrden, PostOrden, estos tienen todos una complejidad de O(n)
+    //Ya que pasara por todos los nodos si o si
     
     private void InOrden(NodoArbol nodo){
         if(nodo != null){ 
@@ -155,6 +160,23 @@ public class Arbol {
     }
     
     
+    public int calcularAltura(){
+        return alturaRec(raiz);
+    }
+    
+    private int alturaRec(NodoArbol nodo){
+        if (nodo == null) return 0; // Si es nulo el arbol esta vacio
+        int altIzq = alturaRec(nodo.izquierda); // Llama recursivamente para obtener la altura de la izquierda
+        int altDer = alturaRec(nodo.derecha); // Lo mismo pero a la derecha
+        return 1 + Math.max(altIzq, altDer); // La altura del nodo actual es 1, mas la altura de sus subarboles
+    }
+    
+    
+    public boolean estaVacio(){
+        return raiz == null;
+    }
+    
+    
     
     public static boolean comparandoAscii(char [] cadena, char[] comparando){
         //Esto sirve para comparar 2 caracteres basandose en su valor Ascii
@@ -166,7 +188,8 @@ public class Arbol {
         si no, compara directamente o cuando llegue al final de la palabra
         para evitar un desbordamiento
         */
-        while(valor1 == valor2 && posicion < cadena.length && posicion < comparando.length){
+        while(valor1 == valor2 &&
+                posicion < cadena.length && posicion < comparando.length){
             valor1 = (int)cadena[posicion]; //convierte el caracter de la palabra a Ascii
             valor2 = (int)comparando[posicion];
             posicion++; //Avanzar a la siguiente posicion
