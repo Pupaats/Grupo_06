@@ -24,11 +24,11 @@ public class Cola {
             elfinal = nuevoNodo;
         }
         tamanio++;
-        System.out.println("el reclamo identificado con el codigo: " + reclamo.getCodigoUnico()+ "Se ingreso al sistema");
+        System.out.println("el reclamo identificado con el codigo: " + reclamo.getCodigoUnico()+ "Se ha ingresado al sistema");
         }
 
     public Reclamos RetirarDeLaCola(){
-        if(estaVacia()){
+        if(LaColaEstaVacia()){
             System.out.println("No hay reclamos por resolver.");
             return null;
         }
@@ -39,19 +39,55 @@ public class Cola {
         if(elfrente==null){
             elfinal=null;
         }
-        
+
         tamanio--;
-        System.out.println("El reclamo identificado con el codigo: "+ reclamofiniquitado.getCodigoUnico()+ "ha sido atendido.");
+
+        System.out.println("El reclamo identificado con el codigo: "+ reclamofiniquitado.getCodigoUnico() + "ha sido atendido.");
 
         return reclamofiniquitado;
     } 
 
-    public boolean estaVacia(){
+    public Reclamos verSiguiente() {
+        if (LaColaEstaVacia()) {
+            System.out.println("No hay reclamos pendientes en la cola.");
+            return null;
+        }
+        System.out.println("Próximo reclamo a atender: #" + elfrente.reclamo.getCodigoUnico()
+                + " - " + elfrente.reclamo.getNombre());
+        return elfrente.reclamo;
+    }
+
+    public int getTamanio(){
+        return tamanio;
+    }
+
+
+    public boolean LaColaEstaVacia(){
         return elfrente==null;
     }
 
-    /*AUN QUEDA POR TERMINAR EL LA PILA... */
 
+    public void MostrarColaSistema(){
+        if(LaColaEstaVacia()){
+            System.out.println("ya no quedan reclamos en el sistema.");
+            return;
+        }
+   
+        System.out.println(" Los reclamos pendientes por atender son: " + tamanio);
+        
+        NodoLista Dato=elfrente;
+        for(int i=1; i<=tamanio; i++){
+            System.out.println("Reclamo numero: "+i +
+            "Codigo del reclamo: "+ Dato.reclamo.getCodigoUnico()+
+            "Nombre del reclamante: "+ Dato.reclamo.getNombre()+
+            "Estado Actual del reclamo: "+ Dato.reclamo.getEstadoReclamo()+
+            "El nivel de prioridad del reclamo: "+ Dato.reclamo.getNivelPrioridad());
+        
+            Dato=Dato.siguiente;
+        }
+        
+       
+    }
 
 
 }
