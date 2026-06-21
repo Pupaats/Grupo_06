@@ -49,7 +49,7 @@ public class ListaReclamos {
         return null;
     }
  
-   public boolean eliminarReclamo(int codigoUnico){
+   public boolean eliminarReclamo(String codigoUnico){
         NodoLista NodoActual = iniciolista;
         NodoLista NodoAnterior = null;
  
