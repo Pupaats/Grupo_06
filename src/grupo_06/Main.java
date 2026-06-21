@@ -18,7 +18,7 @@ public class Main {
         colita.InsertarEnlaCola(test1);
         listita.registrarReclamo(test1);
         
-        Reclamos test2 = new Reclamos("666", "Juan Fuentes", "98.765.432-1", "Seguridad", "Lo violaron (Se dejo)", "21/06/2026", "Pendiente", 9, "01/07/2026");
+        Reclamos test2 = new Reclamos("666", "Juan Fuentes", "98.765.432-1", "Seguridad", "Lo asaltaron :v", "21/06/2026", "Pendiente", 9, "01/07/2026");
         arbolito.insertar(test2);
         colita.InsertarEnlaCola(test2);
         listita.registrarReclamo(test2);        
@@ -44,11 +44,12 @@ public class Main {
                     
                 case 2:
                     // Modificar reclamo
-                    modificarReclamo(sc);
+                    modificarReclamo(sc, listita);
                     break;
                    
                 case 3:
                     // Eliminar reclamos
+                    eliminarReclamo(sc, listita);
                     break;
                     
                 case 4:
@@ -68,10 +69,111 @@ public class Main {
              
     }
     
+
+    private static void eliminarReclamo(Scanner sc, ListaReclamos listita){
+        System.out.println("\n-> Eliminando reclamo"); 
+        
+        System.out.println("Reclamos activos: ");
+        listita.mostrarCodigos();        
+        
+        
+        System.out.println("Ingrese el código del reclamo que quiere eliminar: ");
+        String codigoReclamo = sc.nextLine();
+        
+        Reclamos reclamo = listita.buscarReclamo(codigoReclamo);
+        System.out.println("Reclamo ["+ reclamo.getCodigoUnico() + "] eliminado.");
+        
+        listita.eliminarReclamo(codigoReclamo);
+        
+    }
     
-    private static void modificarReclamo(Scanner sc){
+    private static void modificarReclamo(Scanner sc, ListaReclamos listita){
         System.out.println("\n-> Modificando reclamo"); 
-        // el pepe
+        
+        System.out.println("Reclamos activos: ");
+        listita.mostrarCodigos();       
+        
+        System.out.println("Ingrese el código del reclamo que quiere modificar: ");
+        String codigoReclamo = sc.nextLine();
+        
+        Reclamos reclamo = listita.buscarReclamo(codigoReclamo);
+        
+        int opcionModificar;
+        do{
+            
+            System.out.println("Seleccione lo que desea modificar: ");            
+            System.out.println("1. Código único");
+            System.out.println("2. Nombre del ciudadano");
+            System.out.println("3. RUT del ciudadano");
+            System.out.println("4. Tipo de reclamo");
+            System.out.println("5. Descripción");
+            System.out.println("6. Estado del reclamo");
+            System.out.println("7. Nivel de prioridad");
+            System.out.println("8. Fecha límite");
+            System.out.println("9. Regresar");
+            opcionModificar = sc.nextInt();
+            
+            sc.nextLine(); // limpiar
+            
+            switch(opcionModificar){
+                case 1:
+                    // codigo unico
+                    System.out.println("Codigo único actual: " + reclamo.getCodigoUnico());
+                    System.out.println("Ingrese nuevo codigo único: ");
+                    reclamo.setCodigoUnico(sc.nextLine());    
+                    System.out.println("Reclamo actualizado correctamente.");
+                    break;
+                case 2:
+                    System.out.println("Nombre actual: " + reclamo.getNombre());
+                    System.out.println("Ingrese nuevo nombre: ");
+                    reclamo.setNombre(sc.nextLine());    
+                    System.out.println("Reclamo actualizado correctamente.");
+                    break;
+                case 3:
+                    System.out.println("RUT actual: " + reclamo.getRut());
+                    System.out.println("Ingrese nuevo RUT: ");
+                    reclamo.setRut(sc.nextLine());             
+                    System.out.println("Reclamo actualizado correctamente.");
+                    break;
+                case 4:
+                    System.out.println("Tipo de reclamo actual: " + reclamo.getTipoReclamo());
+                    System.out.println("Ingrese nuevo tipo de reclamo: ");
+                    reclamo.setTipoReclamo(sc.nextLine());   
+                    System.out.println("Reclamo actualizado correctamente.");
+                    break;
+                case 5:
+                    System.out.println("Descripción actual: " + reclamo.getDescripcion());
+                    System.out.println("Ingrese nueva descripción: ");
+                    reclamo.setDescripcion(sc.nextLine());    
+                    System.out.println("Reclamo actualizado correctamente.");
+                    break;
+                case 6:
+                    System.out.println("Estado actual: " + reclamo.getEstadoReclamo());
+                    System.out.println("Ingrese nuevo estado: ");
+                    reclamo.setEstadoReclamo(sc.nextLine());           
+                    System.out.println("Reclamo actualizado correctamente.");
+                    break;
+                case 7:
+                    System.out.println("Nivel de prioridad actual: " + reclamo.getNivelPrioridad());
+                    System.out.println("Ingrese nuevo nivel de prioridad: ");
+                    reclamo.setNivelPrioridad(sc.nextInt());                  
+                    System.out.println("Reclamo actualizado correctamente.");
+                    break;
+                case 8:
+                    System.out.println("Fecha límite actual: " + reclamo.getFechaLimite());
+                    System.out.println("Ingrese nueva fecha límite: ");
+                    reclamo.setFechaLimite(sc.nextLine());                
+                    System.out.println("Reclamo actualizado correctamente.");
+                    break;
+                case 9:
+                    System.out.println("Regresando...");
+                    break;
+                default:
+                    System.out.println("Error: Opción inválida.");
+            }
+            
+        }while(opcionModificar != 9);
+        
     }
     
     private static void consultarReclamos(Scanner sc, ListaReclamos listita){
