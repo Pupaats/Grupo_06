@@ -21,21 +21,22 @@ public class ListaReclamos {
         }
     }
     
+    
     public void consultarReclamos(){
-        NodoLista actual = iniciolista;
+        NodoLista NodoActual = iniciolista;
         
-        if(actual == null){
+        if(NodoActual == null){
             System.out.println("Aún no hay reclamos registrados.");
         }else{
             System.out.println("Reclamos registrados: ");
-            while(actual != null){
-                actual.reclamo.mostrarInfo();
-                actual = actual.siguiente;
+            while(NodoActual != null){
+                NodoActual.reclamo.mostrarInfo();
+                NodoActual = NodoActual.siguiente;
             }
         }        
     }
    
-    public Reclamos buscarReclamo(int codigoUnico){
+    public Reclamos buscarReclamo(String codigoUnico){
         NodoLista NodoActual = iniciolista;
  
         while(NodoActual != null){
@@ -85,4 +86,16 @@ public class ListaReclamos {
         }
         return Tamañodelalista;
     }
+    
+    // Extra
+    public void mostrarCodigos(){
+        NodoLista NodoActual = iniciolista;
+        
+        while(NodoActual != null){
+            System.out.println("Codigo: [" + NodoActual.reclamo.getCodigoUnico() + "]");
+            NodoActual = NodoActual.siguiente;
+        }
+        
+    }    
+    
 }
