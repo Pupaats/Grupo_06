@@ -16,8 +16,8 @@ public class Reclamos {
                    String tipoReclamo, String descripcion, String fechaIngreso, 
                    String estadoReclamo, int nivelPrioridad, String fechaLimite) {
         this.codigoUnico = codigoUnico;
-        this.Nombre = Nombre;
-        this.Rut = Rut;   
+        this.Nombre = nombreCiudadano;
+        this.Rut = rutCiudadano;   
         this.tipoReclamo = tipoReclamo;
         this.descripcion = descripcion;
         this.fechaIngreso = fechaIngreso;
