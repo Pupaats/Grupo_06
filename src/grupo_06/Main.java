@@ -34,7 +34,7 @@ public class Main {
                     break;
                     
                 case 2:
-                    // Modificar
+                    // Modificar reclamo
                     break;
                     
                 default:
