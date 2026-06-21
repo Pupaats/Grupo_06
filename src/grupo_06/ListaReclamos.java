@@ -39,7 +39,7 @@ public class ListaReclamos {
         NodoLista NodoActual = iniciolista;
  
         while(NodoActual != null){
-            if(NodoActual.reclamo.getCodigoUnico() == codigoUnico){
+            if(NodoActual.reclamo.getCodigoUnico().equals(codigoUnico)){
                 return NodoActual.reclamo;
             }
             NodoActual = NodoActual.siguiente;
@@ -53,7 +53,7 @@ public class ListaReclamos {
         NodoLista NodoAnterior = null;
  
         while(NodoActual != null){
-            if(NodoActual.reclamo.getCodigoUnico() == codigoUnico){
+            if(NodoActual.reclamo.getCodigoUnico().equals(codigoUnico)){
                 if(NodoAnterior == null && NodoActual == finallista){
                     iniciolista = null;
                     finallista = null;
