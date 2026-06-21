@@ -17,8 +17,9 @@ public class Pila {
         if(pilita.isEmpty()){
             return null;
         } else{
-            System.out.println("Se ha eliminado el siguiente cambio: "+ pilita.pop());
-            return pilita.pop();
+            Reclamos pilitapop = pilita.pop();
+            System.out.println("Se ha eliminado el siguiente cambio: "+ pilitapop);
+            return pilitapop;
         }
     }
 
