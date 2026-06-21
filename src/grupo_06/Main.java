@@ -62,7 +62,7 @@ public class Main {
                     break;
                     
                 default:
-                    System.out.println("Error: Opción inválida.");
+                    System.out.println("[Error] Opción inválida.");
            
             }
         }while(opcion != 5);
@@ -169,7 +169,7 @@ public class Main {
                     System.out.println("Regresando...");
                     break;
                 default:
-                    System.out.println("Error: Opción inválida.");
+                    System.out.println("[Error] Opción inválida.");
             }
             
         }while(opcionModificar != 9);
@@ -190,6 +190,8 @@ public class Main {
         
         if(reclamo != null){
             reclamo.mostrarInfo();
+        }else{
+            System.out.println("[Error] No existe un reclamo con el código " + codigoReclamo + ".");
         }
         
     
@@ -201,6 +203,13 @@ public class Main {
         
         System.out.println("Código único: ");
         String codigoUnico = sc.nextLine();
+        
+        // Verificar que el código sea único
+        while(listita.buscarReclamo(codigoUnico) != null){
+            System.out.println("[Error] Ese código ya existe. Ingrese uno distinto: ");
+            codigoUnico = sc.nextLine();
+        }
+            
 
         System.out.println("Nombre del ciudadano: ");
         String nombre = sc.nextLine();

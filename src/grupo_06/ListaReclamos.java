@@ -45,7 +45,7 @@ public class ListaReclamos {
             }
             NodoActual = NodoActual.siguiente;
         }
-        System.out.println("No se encontró ningún reclamo con el codigo: " + codigoUnico);
+        //System.out.println("No se encontró ningún reclamo con el codigo: " + codigoUnico);
         return null;
     }
  
