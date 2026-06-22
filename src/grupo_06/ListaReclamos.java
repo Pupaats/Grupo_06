@@ -36,46 +36,6 @@ public class ListaReclamos {
         }        
     }
    
-    public Reclamos buscarReclamo(String codigoUnico){
-        NodoLista NodoActual = iniciolista;
- 
-        while(NodoActual != null){
-            if(NodoActual.reclamo.getCodigoUnico().equals(codigoUnico)){
-                return NodoActual.reclamo;
-            }
-            NodoActual = NodoActual.siguiente;
-        }
-        //System.out.println("No se encontró ningún reclamo con el codigo: " + codigoUnico);
-        return null;
-    }
- 
-   public boolean eliminarReclamo(String codigoUnico){
-        NodoLista NodoActual = iniciolista;
-        NodoLista NodoAnterior = null;
- 
-        while(NodoActual != null){
-            if(NodoActual.reclamo.getCodigoUnico().equals(codigoUnico)){
-                if(NodoAnterior == null && NodoActual == finallista){
-                    iniciolista = null;
-                    finallista = null;
-                }else if(NodoAnterior == null){
-                    iniciolista = NodoActual.siguiente;
-                }else if(NodoActual == finallista){
-                    NodoAnterior.siguiente = null;
-                    finallista = NodoAnterior;
-                }else{
-                    NodoAnterior.siguiente = NodoActual.siguiente;
-                }
-                return true;
-            }
-            NodoAnterior = NodoActual;
-            NodoActual = NodoActual.siguiente;
-        }
- 
-        System.out.println("Hubo un error, hay coincidencias con el código: " + codigoUnico);
-        return false;
-    }
- 
     public int obtenerTamaño(){
         NodoLista NodoActual = iniciolista;
         int Tamañodelalista = 0;
