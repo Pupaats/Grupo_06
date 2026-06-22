@@ -37,28 +37,29 @@ public class Arbol {
         return nodo;
         }
     
-    // Buscar tambien es O(log n) en caso promedio
-    public Reclamos buscar(String Nombre){
-        if(raiz == null){
-            System.out.println("No existe el reclamo");
-            //Si la raíz es nula, el árbol está vacío y no hay nada que buscar
+    /* Buscar tambien es O(log n) en caso promedio, busca un reclamo por su codigo unico
+    y aprovecha la propiedad del bst para ir descartando mitad a mitad
+    */
+    public Reclamos buscar(String codigoUnico) {
+        if (raiz == null) {
+            System.out.println("  [BST] El árbol está vacío.");
+            return null;
         }
-        NodoArbol actual = raiz; //Nodo auxiliar para empezar a recorrer el árbol desde la raiz
-        while(actual != null){ //loop para navegar el árbol mientras queden nodos por revisar
-            if(actual.getReclamo().getNombre().equals(Nombre)){
-                return actual.getReclamo();
-            //Si el nombre buscado es exactamente igual al del nodo actual retorna correctamente
+        NodoArbol actual = raiz;
+        while (actual != null) {
+            String codigoActual = actual.reclamo.getCodigoUnico();
+ 
+            if (codigoActual.equals(codigoUnico)) {
+                return actual.getReclamo(); // aqui si lo encuentra
             }
-            char[] aux = actual.reclamo.getNombre().toCharArray(); //Si no es igual preparamos la conversion a char
-            // Si comparandoAscii devuelve true, significa que el nombre buscado es menor
-            if(comparandoAscii(Nombre.toCharArray(), aux)){
-                actual = actual.getIzquierda();// Baja por el subárbol izquierdo
+            // ahora compara codigo unico, no con el getnombre, pido perdon por eso :/
+            if (comparandoAscii(codigoUnico.toCharArray(), codigoActual.toCharArray())) {
+                actual = actual.getIzquierda(); //El buscado es menor entonces va ir a la izquierda
             } else {
-                actual = actual.getDerecha();// Baja por el subárbol derecho
+                actual = actual.getDerecha();   //El que busca es mayor, entonces derecha
             }
-        } 
-        
-        System.out.println("No se encontro el reclamo");
+        }
+        System.out.println("  [BST] No se encontró reclamo con código: " + codigoUnico);
         return null;
     }
     
@@ -109,9 +110,11 @@ public class Arbol {
         return nodo;
     }
     
-    //Ordenamientos InOrden, PreOrden, PostOrden, estos tienen todos una complejidad de O(n)
-    //Ya que pasara por todos los nodos si o si
+    /*Ordenamientos InOrden, PreOrden, PostOrden, 
+     estos tienen todos una complejidad de O(n) ya que pasara por todos los nodos si o si almenos una vez
+    */
     
+    //Inorden = Izquieda, Raiz, Derecha
     private void InOrden(NodoArbol nodo){
         if(nodo != null){ 
             InOrden(nodo.getIzquierda());
@@ -127,7 +130,7 @@ public class Arbol {
         }
     }
     
-    
+    //PreOrden = Raiz, Derecha, Izquierda
     private void PreOrden(NodoArbol nodo){
         if(nodo!=null){ 
             System.out.println(nodo);
@@ -143,7 +146,7 @@ public class Arbol {
         }
     }
     
-    
+    //PostOrden = Izquierda, Derecha, Raiz
     private void PostOrden(NodoArbol nodo){
         if(nodo!=null){
             PostOrden(nodo.getIzquierda());
@@ -159,6 +162,7 @@ public class Arbol {
         }
     }
     
+    //Extras o Auxiliares
     
     public int calcularAltura(){
         return alturaRec(raiz);
@@ -177,10 +181,10 @@ public class Arbol {
     }
     
     
-    
     public static boolean comparandoAscii(char [] cadena, char[] comparando){
         //Esto sirve para comparar 2 caracteres basandose en su valor Ascii
         //Elige la que va primero en orden alfabetico
+        //Su complejidad depende del largo de la cadena
         int valor1 = 0;
         int valor2 = 0;
         int posicion = 0;

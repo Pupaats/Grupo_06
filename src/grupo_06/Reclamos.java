@@ -16,8 +16,8 @@ public class Reclamos {
                    String tipoReclamo, String descripcion, String fechaIngreso, 
                    String estadoReclamo, int nivelPrioridad, String fechaLimite) {
         this.codigoUnico = codigoUnico;
-        this.Nombre = Nombre;
-        this.Rut = Rut;   
+        this.Nombre = nombreCiudadano;
+        this.Rut = rutCiudadano;   
         this.tipoReclamo = tipoReclamo;
         this.descripcion = descripcion;
         this.fechaIngreso = fechaIngreso;
@@ -104,16 +104,17 @@ public class Reclamos {
         
     
         public void mostrarInfo(){
-            System.out.println("Informacion del reclamo");
-            System.out.println("Codigo:" + codigoUnico);
-            System.out.println("Nombre:" + Nombre);
-            System.out.println("Rut:" + Rut);
-            System.out.println("Tipo:" + tipoReclamo);
+            System.out.println("\nInformacion del reclamo con código [" + getCodigoUnico() + "]");
+            System.out.println("Nombre: " + Nombre);
+            System.out.println("Rut: " + Rut);
+            System.out.println("Tipo: " + tipoReclamo);
+            System.out.println("Descripcion: " + descripcion);
+            System.out.println("Fecha de ingreso: " + fechaIngreso);
+            System.out.println("Nivel de prioridad: " + nivelPrioridad);
+            System.out.println("Fecha limite de respuesta: " + fechaLimite + "\n");
         }
         
 }
-
-
 
 
 
