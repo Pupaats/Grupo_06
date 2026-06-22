@@ -38,27 +38,27 @@ public class Arbol {
         }
     
     // Buscar tambien es O(log n) en caso promedio
-    public Reclamos buscar(String Nombre){
+    public Reclamos buscar(String codigo){
         if(raiz == null){
-            System.out.println("No existe el reclamo");
+            System.out.println("No hay reclamos.");
             //Si la raíz es nula, el árbol está vacío y no hay nada que buscar
         }
         NodoArbol actual = raiz; //Nodo auxiliar para empezar a recorrer el árbol desde la raiz
         while(actual != null){ //loop para navegar el árbol mientras queden nodos por revisar
-            if(actual.getReclamo().getNombre().equals(Nombre)){
+            if(actual.getReclamo().getCodigoUnico().equals(codigo)){
                 return actual.getReclamo();
             //Si el nombre buscado es exactamente igual al del nodo actual retorna correctamente
             }
-            char[] aux = actual.reclamo.getNombre().toCharArray(); //Si no es igual preparamos la conversion a char
+            char[] aux = actual.reclamo.getCodigoUnico().toCharArray(); //Si no es igual preparamos la conversion a char
             // Si comparandoAscii devuelve true, significa que el nombre buscado es menor
-            if(comparandoAscii(Nombre.toCharArray(), aux)){
+            if(comparandoAscii(codigo.toCharArray(), aux)){
                 actual = actual.getIzquierda();// Baja por el subárbol izquierdo
             } else {
                 actual = actual.getDerecha();// Baja por el subárbol derecho
             }
         } 
         
-        System.out.println("No se encontro el reclamo");
+        System.out.println("No se encontró el reclamo.");
         return null;
     }
     
