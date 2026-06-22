@@ -3,6 +3,7 @@ package grupo_06;
 public class ListaReclamos {
     private NodoLista iniciolista;
     private NodoLista finallista;
+    private int contador;
 
     public ListaReclamos() {
         this.iniciolista = null;
@@ -19,6 +20,7 @@ public class ListaReclamos {
             finallista.siguiente = nuevoNodo;
             finallista = nuevoNodo;
         }
+        contador ++;
     }
     
     
@@ -37,14 +39,7 @@ public class ListaReclamos {
     }
    
     public int obtenerTamaño(){
-        NodoLista NodoActual = iniciolista;
-        int Tamañodelalista = 0;
- 
-        while(NodoActual != null){
-            Tamañodelalista++;
-            NodoActual = NodoActual.siguiente;
-        }
-        return Tamañodelalista;
+        return contador; // cambio para que sea o(1)
     }
     
     // Extra
