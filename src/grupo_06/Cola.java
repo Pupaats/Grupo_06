@@ -1,6 +1,6 @@
 package grupo_06;
 
-public class Cola  
+public class Cola{
     private NodoLista elfrente;
     private NodoLista elfinal;
     private int tamanio;
@@ -24,7 +24,7 @@ public class Cola
             elfinal = nuevoNodo;
         }
         tamanio++;
-        System.out.println("el reclamo identificado con el codigo: " + reclamo.getCodigoUnico()+ "Se ha ingresado al sistema");
+        System.out.println("El reclamo identificado con el codigo: [" + reclamo.getCodigoUnico() + "] se ha ingresado al sistema.");
         }
 
     public Reclamos RetirarDeLaCola(){
