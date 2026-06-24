@@ -25,7 +25,8 @@ public class Pila {
 
     public Reclamos verCambioMasReciente() {
         Reclamos tope = pilita.peek();
-            System.out.println("El ultimo cambio que se ha ingresado es: "+ tope);
+            //System.out.println("El ultimo cambio que se ha ingresado es: "+ tope);
+            tope.mostrarInfo();
         return tope;
     }
 
