@@ -84,9 +84,15 @@ public class Main {
         String codigoReclamo = sc.nextLine();
         
         Reclamos reclamo = arbolito.buscar(codigoReclamo);
-        System.out.println("Reclamo ["+ reclamo.getCodigoUnico() + "] eliminado.");
         
+        if(reclamo != null){
+        System.out.println("Reclamo ["+ reclamo.getCodigoUnico() + "] eliminado.");
         arbolito.eliminar(codigoReclamo);
+        listita.eliminarReclamo(codigoReclamo);            
+        }else{
+            System.out.println("[Error] No existe un reclamo con ese código.");
+        }
+  
         
     }
     
@@ -224,7 +230,10 @@ public class Main {
                     }else{
                         System.out.println("[Error] No existe un reclamo con ese código.");
                     }
-                    break;                    
+                    break;               
+                case 6:
+                    System.out.println("Regresando...");
+                    break;
                 default:
                     System.out.println("[Error] Opción inválida.");
             }
