@@ -40,11 +40,14 @@ public class Arbol {
     /* Buscar tambien es O(log n) en caso promedio, busca un reclamo por su codigo unico
     y aprovecha la propiedad del bst para ir descartando mitad a mitad
     */
-    public Reclamos buscar(String codigoUnico) {
+    public Reclamos buscar(String codigoUnico){
+        // Creo que esto no es necesario, lo comento por las dudas
+        /*
         if (raiz == null) {
             System.out.println("  [BST] El árbol está vacío.");
             return null;
         }
+        */
         NodoArbol actual = raiz;
         while (actual != null) {
             String codigoActual = actual.reclamo.getCodigoUnico();
@@ -59,7 +62,8 @@ public class Arbol {
                 actual = actual.getDerecha();   //El que busca es mayor, entonces derecha
             }
         }
-        System.out.println("  [BST] No se encontró reclamo con código: " + codigoUnico);
+        
+        // Esto tampoco System.out.println("  [BST] No se encontró reclamo con código: " + codigoUnico);
         return null;
     }
     
@@ -192,18 +196,26 @@ public class Arbol {
         si no, compara directamente o cuando llegue al final de la palabra
         para evitar un desbordamiento
         */
-        while(valor1 == valor2 &&
-                posicion < cadena.length && posicion < comparando.length){
+        while(valor1 == valor2 && posicion < cadena.length && posicion < comparando.length){
             valor1 = (int)cadena[posicion]; //convierte el caracter de la palabra a Ascii
             valor2 = (int)comparando[posicion];
-            posicion++; //Avanzar a la siguiente posicion
+        
+            //Aqui evalua, la palabra con menor valor numerico va a la izquierda
+            // y la con mayor valor numerico a la derecha.
+            if(valor1 < valor2){
+                return true;
+            }else if(valor1 > valor2){
+                return false;
+            }
+            posicion++;  // Si son iguales, seguimos avanzando
         }
-        //Aqui evalua, la palabra con menor valor numerico va a la izquierda
-        // y la con mayor valor numerico a la derecha.
-        if(valor1 < valor2){
+        
+        // Si ambas cadenas eran identicas hasta que una superó en largo a la otra, la más corta es la menor
+        // Ej: 123 y 1234. 123 debe ser la menor
+        if(cadena.length < comparando.length){
             return true;
         }else{
-            return false;
+            return false;   
         }
     }
 }
