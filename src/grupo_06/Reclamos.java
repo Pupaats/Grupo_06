@@ -105,6 +105,7 @@ public class Reclamos {
     
         public void mostrarInfo(){
             System.out.println("\nInformacion del reclamo con código [" + getCodigoUnico() + "]");
+            System.out.println("- - - - - - - - - - - - - - - - - - - - -");
             System.out.println("Nombre: " + Nombre);
             System.out.println("Rut: " + Rut);
             System.out.println("Tipo: " + tipoReclamo);
