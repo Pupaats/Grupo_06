@@ -24,7 +24,7 @@ public class Cola{
             elfinal = nuevoNodo;
         }
         tamanio++;
-        System.out.println("El reclamo identificado con el codigo: [" + reclamo.getCodigoUnico() + "] se ha ingresado al sistema.");
+        System.out.println("-> El reclamo identificado con el codigo: [" + reclamo.getCodigoUnico() + "] se ha ingresado al sistema.");
         }
 
     public Reclamos RetirarDeLaCola(){
@@ -42,7 +42,7 @@ public class Cola{
 
         tamanio--;
 
-        System.out.println("El reclamo identificado con el codigo: "+ reclamofiniquitado.getCodigoUnico() + "ha sido atendido.");
+        System.out.println("-> El reclamo identificado con el codigo: "+ reclamofiniquitado.getCodigoUnico() + "ha sido atendido.");
 
         return reclamofiniquitado;
     } 
@@ -69,7 +69,7 @@ public class Cola{
 
     public void MostrarColaSistema(){
         if(LaColaEstaVacia()){
-            System.out.println("ya no quedan reclamos en el sistema.");
+            System.out.println("Ya no quedan reclamos en el sistema.");
             return;
         }
    
