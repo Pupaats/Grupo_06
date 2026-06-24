@@ -18,11 +18,13 @@ public class Main {
         arbolito.insertar(test1);
         colita.InsertarEnlaCola(test1);
         listita.registrarReclamo(test1);
+        pilita.InsertarCambioReclamo(test1);
         
         Reclamos test2 = new Reclamos("666", "Juan Fuentes", "98.765.432-1", "Seguridad", "Lo asaltaron :v", "21/06/2026", "Pendiente", 1, "01/07/2026");
         arbolito.insertar(test2);
         colita.InsertarEnlaCola(test2);
         listita.registrarReclamo(test2);        
+        pilita.InsertarCambioReclamo(test2);
         
         int opcion;
         
@@ -40,7 +42,7 @@ public class Main {
         
             switch(opcion){
                 case 1:
-                    registrarReclamo(sc, arbolito, colita, listita);
+                    registrarReclamo(sc, arbolito, colita, listita, pilita);
                     break;
                     
                 case 2:
@@ -232,7 +234,7 @@ public class Main {
     }
     
     
-    private static void registrarReclamo(Scanner sc, Arbol arbolito, Cola colita, ListaReclamos listita){
+    private static void registrarReclamo(Scanner sc, Arbol arbolito, Cola colita, ListaReclamos listita, Pila pilita){
         System.out.println("\n== Menú Registrar ==");
 
         System.out.println("Código único: ");
@@ -244,36 +246,39 @@ public class Main {
             codigoUnico = sc.nextLine();
         }
             
-        System.out.println("Nombre del ciudadano: ");
+        System.out.println("Ingrese nombre del ciudadano: ");
         String nombre = sc.nextLine();
 
-        System.out.println("RUT del ciudadano: ");
+        System.out.println("Ingrese RUT del ciudadano: ");
         String rut = sc.nextLine();
 
-        System.out.println("Tipo de reclamo: ");
+        System.out.println("Ingrese el tipo de reclamo: ");
         String tipoReclamo = sc.nextLine();
 
-        System.out.println("Descripción: ");
+        System.out.println("Ingrese una descripción: ");
         String descripcion = sc.nextLine();
 
-        System.out.println("Estado del reclamo: ");
+        System.out.println("Ingrese fecha de ingreso (DD/MM/AAAA): ");
+        String fechaIngreso = sc.nextLine();
+        
+        System.out.println("Ingrese estado del reclamo: ");
         String estadoReclamo = sc.nextLine();
 
-        System.out.println("Nivel de prioridad: ");
+        System.out.println("Ingrese nivel de prioridad: ");
         int nivelPrioridad = sc.nextInt();
-
-        System.out.println("Fecha limite: ");
+        
+        System.out.println("Ingrese fecha límite (DD/MM/AAAA): ");
         String fechaLimite = sc.nextLine();
         
         sc.nextLine();
         
-        Reclamos nuevoReclamo = new Reclamos(codigoUnico, nombre, rut, tipoReclamo, descripcion, fechaLimite,
-                estadoReclamo, nivelPrioridad, fechaLimite);
+        Reclamos nuevoReclamo = new Reclamos(codigoUnico, nombre, rut, tipoReclamo, descripcion,
+                fechaIngreso, estadoReclamo, nivelPrioridad, fechaLimite);
         
         arbolito.insertar(nuevoReclamo);
         colita.InsertarEnlaCola(nuevoReclamo);
         listita.registrarReclamo(nuevoReclamo);
-        
+        pilita.InsertarCambioReclamo(nuevoReclamo);
     }
     
     
