@@ -3,52 +3,40 @@ package grupo_06;
 import java.util.Stack;
 
 public class Pila {
-    private Stack<Reclamos> pilita;
+    private Stack<String> historialdecambios;
 
     public Pila() {
-        this.pilita = new Stack<>();
+        this.historialdecambios = new Stack<>();
     }
 
-    public void InsertarCambioReclamo(Reclamos reclamos) {
-        pilita.push(reclamos);
+    public void registrarCambios(String Codigo, String Estado){
+   
+        System.out.println(" El codigo del reclamo: " + Codigo + " y el cambio: " + Estado);
+        String registro = "El registro reclamo con el codigo: "+ "[" + Codigo + "]: " + Estado;
+        historialdecambios.push(registro);
     }
 
-    public Reclamos eliminarCambioReclamo() {
-        if(pilita.isEmpty()){
-            return null;
-        } else{
-            Reclamos pilitapop = pilita.pop();
-            System.out.println("Se ha eliminado el siguiente cambio: "+ pilitapop);
-            return pilitapop;
-        }
+    public void VerCambioMasReciente(){
+    if(historialdecambios.isEmpty()){
+        System.out.println("No hay cambios registrados...");
+    }else{
+       System.out.println("Ultimo reclamo registrado: "+  historialdecambios.peek());
+    }
     }
 
-    public Reclamos verCambioMasReciente() {
-        Reclamos tope = pilita.peek();
-            //System.out.println("El ultimo cambio que se ha ingresado es: "+ tope);
-            tope.mostrarInfo();
-        return tope;
-    }
-
-    public boolean PilaVacia() {
-        return pilita.isEmpty();
-    }
-
-    public void mostrarHistorialCambios() {
-        if (pilita.isEmpty()) {
-            System.out.println("No hubo cambios en los reclamos.");
+    public void MostrarHistorialDeCambios(){
+        if(historialdecambios.isEmpty()){
+            System.out.println("No existen cambios...");
         }else{
-            System.out.println("Los cambios que se han hecho son: ");
-            for(Reclamos reclamo:pilita){
-                System.out.println(reclamo);
+            System.out.println("Estos son los cambios: ");
+            for (String Historialito : historialdecambios) {
+                System.out.println(Historialito);
             }
         }
     }
 
-    public int NumeroCambiosReclamos(){
-            System.out.println("La cantidad de cambios que se han hecho a los reclamos es:"+ pilita.size());
-        return pilita.size();
-    }
 
-}  
+
+
 //complejidad general de la clase pila: 0(1)
+}

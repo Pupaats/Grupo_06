@@ -43,26 +43,53 @@ public class ListaReclamos {
         return null; // no lo encontro
     } 
     
-    //Busqueda Binaria
-    /*
-    TODO: hacer la bsuqueda binaria, me la hago mañana que ahora toy cansado
-    */
-    
-    /* No se porque esta esto aca xd
-    public void consultarReclamos(){
-        NodoLista NodoActual = iniciolista;
-        
-        if(NodoActual == null){
-            System.out.println("Aún no hay reclamos registrados.");
-        }else{
-            System.out.println("Reclamos registrados: ");
-            while(NodoActual != null){
-                NodoActual.reclamo.mostrarInfo();
-                NodoActual = NodoActual.siguiente;
+//Busqueda Binaria
+    public Reclamos busquedaBinaria(String codigoUnico) {
+        if (iniciolista == null) {
+            System.out.println("No hay reclamos.");
+            return null;
+        }
+
+        Reclamos[] arreglo = new Reclamos[cantidadReclamos];
+        NodoLista nodoActual = iniciolista;
+
+        for(int i = 0; i < cantidadReclamos; i++){
+            arreglo[i] = nodoActual.reclamo;
+            nodoActual = nodoActual.siguiente;
+        }
+
+        // Ordenamos el arreglo por código único con Bubble Sort O(n^2)
+        for (int i = 0; i < arreglo.length - 1; i++) {
+            for (int j = 0; j < arreglo.length - i - 1; j++) {
+                if (arreglo[j].getCodigoUnico().compareTo(arreglo[j+1].getCodigoUnico()) > 0) {
+                    Reclamos temp = arreglo[j];
+                    arreglo[j] = arreglo[j+1];
+                    arreglo[j+1] = temp;
+                }
             }
-        }        
+        }
+
+        // 3. Ahora sí la busqueda binaria O(log n) - descarta mitad a mitad
+        int izquierda = 0;
+        int derecha = arreglo.length - 1;
+
+        while (izquierda <= derecha) {
+            int medio = (izquierda + derecha) / 2;
+            int comparacion = arreglo[medio].getCodigoUnico().compareTo(codigoUnico);
+
+            if (comparacion == 0) {
+                System.out.println("  [Búsqueda Binaria] Reclamo encontrado en posición " + medio + " del arreglo ordenado.");
+                return arreglo[medio];
+            } else if (comparacion < 0) {
+                izquierda = medio + 1; // el buscado está en la mitad derecha
+            } else {
+                derecha = medio - 1;   // el buscado está en la mitad izquierda
+            }
+        }
+
+        System.out.println("No se encontró reclamo con código: " + codigoUnico);
+        return null;
     }
-   */
     
     
    public boolean eliminarReclamo(String codigoUnico){
@@ -162,7 +189,57 @@ public class ListaReclamos {
         if(encontrado == false){
             System.out.println("No existen reclamos de este tipo.");
         }
-                
     }
+    
+    // Nuevo de Aaron
+     public void MostrarReclamosAvencer(String fechaActual){
+        if(iniciolista==null){
+            return;
+        }
+
+        int diaslimitereclamo=7;
+
+        String[] divisor_mes_dia=fechaActual.split("/");
+        int diaactual=Integer.parseInt(divisor_mes_dia[0]);
+        int mesactual=Integer.parseInt(divisor_mes_dia[1]);
+
+        NodoLista NodoActual=iniciolista;
+         while(NodoActual != null){
+            Reclamos reclamoActual = NodoActual.reclamo;
+            
+            // Se separa la fecha que el usuario ingresa (si se respeta el formato solicitado XD) con split y trabajar con ellos como en datos aparte
+            String[] almacenadordedatos = reclamoActual.getFechaLimite().split("/");
+            int diasmaximos= Integer.parseInt(almacenadordedatos[0]);
+            int mesmaximo = Integer.parseInt(almacenadordedatos[1]);
+            
+            int diasRestantes;
+            if(mesmaximo == mesactual){
+                diasRestantes = diasmaximos - diaactual;
+            }else{
+                /*
+                    Basicamente esto es un caso en donde si la fecha limite cae en el mes posterior: se adcionan los dias del mes actual mas los del posterior
+                 */
+                diasRestantes = (30 - diaactual) + diasmaximos;
+            }
+            
+            //si diasrestantes es menor a 0, se imprime el dia eliminando el signo
+            if(diasRestantes <=diaslimitereclamo){
+                reclamoActual.mostrarInfo();
+                
+                if(diasRestantes < 0){
+                    System.out.println("El reclamo ha vencido hace: " + Math.abs(diasRestantes));
+                }else if(diasRestantes == 0){
+                    System.out.println("URGENTE, este reclamo finaliza el dia de hoy. ATENDER PRONTO");
+                }else{
+                    System.out.println("El reclamo vence en los siguientes dias: "+diasRestantes);
+                }
+            }
+            
+            NodoActual = NodoActual.siguiente;
+        }
+
+
+    }
+
     
 }

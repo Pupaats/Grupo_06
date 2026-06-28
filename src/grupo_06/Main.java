@@ -18,13 +18,19 @@ public class Main {
         arbolito.insertar(test1);
         colita.InsertarEnlaCola(test1);
         listita.registrarReclamo(test1);
-        pilita.InsertarCambioReclamo(test1);
+        pilita.registrarCambios(test1.getCodigoUnico(), "Reclamo registrado");
         
         Reclamos test2 = new Reclamos("666", "Juan Fuentes", "98.765.432-1", "Seguridad", "Lo asaltaron :v", "21/06/2026", "Pendiente", 1, "01/07/2026");
         arbolito.insertar(test2);
         colita.InsertarEnlaCola(test2);
         listita.registrarReclamo(test2);        
-        pilita.InsertarCambioReclamo(test2);
+        pilita.registrarCambios(test2.getCodigoUnico(), "Reclamo registrado");
+        
+        Reclamos test3 = new Reclamos("712", "Pedro Pro", "98.765.432-1", "Otro", "Descripcion pepe", "21/06/2026", "Pendiente", 3, "01/07/2028");
+        arbolito.insertar(test3);
+        colita.InsertarEnlaCola(test3);
+        listita.registrarReclamo(test3);        
+        pilita.registrarCambios(test3.getCodigoUnico(), "Reclamo registrado");        
         
         int opcion;
         
@@ -202,7 +208,7 @@ public class Main {
         System.out.println("\n== Menú Consultas ==");
         System.out.println("1. Mostrar todos (Ordenado por prioridad)");
         System.out.println("2. Mostrar el último ingresado");            
-        System.out.println("3. Ordenar por vencimiento (FALTA)");
+        System.out.println("3. Mostrar reclamos proximos a vencer");
         System.out.println("4. Buscar por tipo de reclamo");
         System.out.println("5. Buscar reclamo por código");
         System.out.println("6. Regresar");
@@ -215,14 +221,12 @@ public class Main {
                 listita.consultarReclamos();
                 break;
             case 2:
-                if(!pilita.PilaVacia()){
-                    pilita.verCambioMasReciente();
-                }else{
-                    System.out.println("Pila vacia texto");
-                }
+                pilita.VerCambioMasReciente();
                 break;
             case 3:
-                // ORDENAR POR VENCIMIENTO (HACER)
+                System.out.println("Ingrese la fecha de hoy (DD/MM/AAAA): ");
+                String fechaHoy = sc.nextLine();
+                listita.MostrarReclamosAvencer(fechaHoy);
                 break;
             case 4:
                 buscarPorTipo(sc, listita);
@@ -327,6 +331,7 @@ public class Main {
 
         System.out.println("Ingrese fecha de ingreso (DD/MM/AAAA): ");
         String fechaIngreso = sc.nextLine();
+        listita.MostrarReclamosAvencer(fechaIngreso);        
         
         System.out.println("Ingrese estado del reclamo: ");
         String estadoReclamo = sc.nextLine();
@@ -345,7 +350,7 @@ public class Main {
         arbolito.insertar(nuevoReclamo);
         colita.InsertarEnlaCola(nuevoReclamo);
         listita.registrarReclamo(nuevoReclamo);
-        pilita.InsertarCambioReclamo(nuevoReclamo);
+        pilita.registrarCambios(nuevoReclamo.getCodigoUnico(), "Reclamo registrado");
     }
     
     
