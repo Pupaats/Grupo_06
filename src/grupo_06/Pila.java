@@ -11,8 +11,8 @@ public class Pila {
 
     public void registrarCambios(String Codigo, String Estado){
    
-        System.out.println(" El codigo del reclamo: " + Codigo + " y el cambio: " + Estado);
-        String registro = "El registro reclamo con el codigo: "+ "[" + Codigo + "]: " + Estado;
+        //System.out.println(" El codigo del reclamo: " + Codigo + " y el cambio: " + Estado);
+        String registro = "Reclamo "+ "[" + Codigo + "]: " + Estado;
         historialdecambios.push(registro);
     }
 
@@ -26,9 +26,9 @@ public class Pila {
 
     public void MostrarHistorialDeCambios(){
         if(historialdecambios.isEmpty()){
-            System.out.println("No existen cambios...");
+            System.out.println("No existen cambios.");
         }else{
-            System.out.println("Estos son los cambios: ");
+            System.out.println("Historial de cambios:");
             for (String Historialito : historialdecambios) {
                 System.out.println(Historialito);
             }
