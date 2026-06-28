@@ -200,11 +200,11 @@ public class Main {
 
 
         System.out.println("\n== Menú Consultas ==");
-        System.out.println("1. Mostrar todos");
+        System.out.println("1. Mostrar todos (Ordenado por prioridad)");
         System.out.println("2. Mostrar el último ingresado");            
         System.out.println("3. Ordenar por vencimiento (FALTA)");
-        System.out.println("4. Ordenar por tipo (FALTA)");
-        System.out.println("5. Buscar reclamo con código");
+        System.out.println("4. Buscar por tipo de reclamo");
+        System.out.println("5. Buscar reclamo por código");
         System.out.println("6. Regresar");
         System.out.println("Seleccione una opción: ");
         int opcionConsultar = sc.nextInt();
@@ -225,7 +225,7 @@ public class Main {
                 // ORDENAR POR VENCIMIENTO (HACER)
                 break;
             case 4:
-                // ORDENAR POR TIPO (HACER)
+                buscarPorTipo(sc, listita);
                 break;
             case 5:
                 System.out.println("Ingrese el código del reclamo: ");
@@ -243,6 +243,38 @@ public class Main {
                 System.out.println("[Error] Opción inválida.");
         }
       
+    }
+
+    private static void buscarPorTipo(Scanner sc, ListaReclamos listita){
+
+        System.out.println("Tipos de reclamo a consultar: ");
+        System.out.println("1. Salud\n2. Seguridad\n3. Educación\n4. Emergencia\n5. Otro\nSeleccione tipo de reclamo: ");        
+        
+        int tipoFiltrado = sc.nextInt();
+        sc.nextLine();
+        
+        if(tipoFiltrado < 1 || tipoFiltrado > 5){
+            System.out.println("[Error] Opción inválida."); 
+            return;
+        }
+        
+        String tipoMostrado;
+        
+        if(tipoFiltrado == 1){
+        tipoMostrado = "Salud";
+        }else if(tipoFiltrado == 2){
+        tipoMostrado = "Seguridad";
+        }else if(tipoFiltrado == 3){
+        tipoMostrado = "Educación";
+        }else if(tipoFiltrado == 4){
+        tipoMostrado = "Emergencia";
+        }else{
+        tipoMostrado = "Otro";
+        }        
+        
+        System.out.println("-> Mostrando los reclamos de tipo [" + tipoMostrado + "]");
+        listita.mostrarPorTipoReclamo(tipoMostrado);
+        
     }
     
     
@@ -264,8 +296,31 @@ public class Main {
         System.out.println("Ingrese RUT del ciudadano: ");
         String rut = sc.nextLine();
 
-        System.out.println("Ingrese tipo de reclamo: ");
-        String tipoReclamo = sc.nextLine();
+        System.out.println("Tipos de reclamo: ");
+        System.out.println("1. Salud\n2. Seguridad\n3. Educación\n4. Emergencia\n5. Otro\nSeleccione tipo de reclamo: ");
+        
+        int tipoElegido = sc.nextInt();
+        sc.nextLine();
+        
+        if(tipoElegido < 1 || tipoElegido > 5){
+            System.out.println("[Error] Opción inválida."); 
+            return;
+        }
+        
+        String tipoReclamo;
+        
+        if(tipoElegido == 1){
+        tipoReclamo = "Salud";
+        }else if(tipoElegido == 2){
+        tipoReclamo = "Seguridad";
+        }else if(tipoElegido == 3){
+        tipoReclamo = "Educación";
+        }else if(tipoElegido == 4){
+        tipoReclamo = "Emergencia";
+        }else{
+        tipoReclamo = "Otro";
+        }
+        
 
         System.out.println("Ingrese una descripción: ");
         String descripcion = sc.nextLine();
