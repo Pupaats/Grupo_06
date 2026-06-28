@@ -137,7 +137,6 @@ public class Main {
         System.out.println("6. Estado del reclamo");
         System.out.println("7. Nivel de prioridad");
         System.out.println("8. Fecha límite");
-        System.out.println("9. Regresar");
         System.out.println("Seleccione una opción: ");
         int opcionModificar = sc.nextInt();
         sc.nextLine(); // limpiar
@@ -211,9 +210,6 @@ public class Main {
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
                 pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó la fecha límite a: " + nuevaFechaLimite);
                 break;
-            case 9:
-                System.out.println("Regresando...");
-                break;
             default:
                 System.out.println("[Error] Opción inválida.");
         }
@@ -229,11 +225,10 @@ public class Main {
 
         System.out.println("\n== Menú Consultas ==");
         System.out.println("1. Mostrar todos (Ordenado por prioridad)");
-        System.out.println("2. Mostrar el último ingresado");            
-        System.out.println("3. Mostrar reclamos proximos a vencer");
-        System.out.println("4. Buscar por tipo de reclamo");
-        System.out.println("5. Buscar reclamo por código");
-        System.out.println("6. Regresar");
+        System.out.println("2. Mostrar reclamos próximos a vencer");
+        System.out.println("3. Filtrar por tipo de reclamo");
+        System.out.println("4. Buscar reclamo por código único");
+        System.out.println("5. Regresar");
         System.out.println("Seleccione una opción: ");
         int opcionConsultar = sc.nextInt();
         sc.nextLine();
@@ -243,17 +238,14 @@ public class Main {
                 listita.consultarReclamos();
                 break;
             case 2:
-                pilita.VerCambioMasReciente();
-                break;
-            case 3:
                 System.out.println("Ingrese la fecha de hoy (DD/MM/AAAA): ");
                 String fechaHoy = sc.nextLine();
                 listita.MostrarReclamosAvencer(fechaHoy);
                 break;
-            case 4:
+            case 3:
                 buscarPorTipo(sc, listita);
                 break;
-            case 5:
+            case 4:
                 System.out.println("Ingrese el código del reclamo: ");
                 Reclamos reclamo = arbolito.buscar(sc.nextLine());
                 if(reclamo != null){
@@ -262,9 +254,6 @@ public class Main {
                     System.out.println("[Error] No existe un reclamo con ese código.");
                 }
                 break;               
-            case 6:
-                System.out.println("Regresando...");
-                break;
             default:
                 System.out.println("[Error] Opción inválida.");
         }
