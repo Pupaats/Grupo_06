@@ -26,6 +26,41 @@ public class ListaReclamos {
         }
         cantidadReclamos ++;
     }
+    
+    // es O(n) porque busca el nodo primero 
+    public void eliminarReclamo(String codigoUnico) {
+        if (iniciolista == null) {
+            System.out.println("No hay reclamos que eliminar.");
+            return;
+        }
+ 
+        // en caso especial si es el primer nodo de la lista
+        if (iniciolista.reclamo.getCodigoUnico().equals(codigoUnico)) {
+            iniciolista = iniciolista.siguiente;
+            if (iniciolista == null) finallista = null;
+            cantidadReclamos--;
+            return;
+        }
+ 
+        // Si no es el primero, busco el nodo anterior al que quiero borrar
+        NodoLista anterior = iniciolista;
+        NodoLista actual = iniciolista.siguiente;
+ 
+        while (actual != null) {
+            if (actual.reclamo.getCodigoUnico().equals(codigoUnico)) {
+                anterior.siguiente = actual.siguiente;
+                // Si era el último nodo actualizo el puntero final
+                if (actual == finallista) finallista = anterior;
+                cantidadReclamos--;
+                return;
+            }
+            anterior = actual;
+            actual = actual.siguiente;
+        }
+ 
+        System.out.println("No se encontró reclamo con código: " + codigoUnico);
+    }
+        
     //Busqueda Sequencial
     /* cuando usariamos la busqueda secuencial ? cuando la lista no esta ordenada o cuando se busca
     una sola vez, cuando no requiere ordenamiento previo o cuando las listas son pequeñas
@@ -43,28 +78,54 @@ public class ListaReclamos {
         return null; // no lo encontro
     } 
     
-    //Busqueda Binaria
-    /*
-    TODO: hacer la bsuqueda binaria, me la hago mañana que ahora toy cansado
-    */
-    
-    /* No se porque esta esto aca xd
-    public void consultarReclamos(){
-        NodoLista NodoActual = iniciolista;
+//Busqueda Binaria
+    public Reclamos busquedaBinaria(String codigoUnico) {
+        if (iniciolista == null) {
+            System.out.println("No hay reclamos.");
+            return null;
+        }
+
+        Reclamos[] arreglo = new Reclamos[cantidadReclamos];
+        NodoLista nodoActual = iniciolista;
         
-        if(NodoActual == null){
-            System.out.println("Aún no hay reclamos registrados.");
-        }else{
-            System.out.println("Reclamos registrados: ");
-            while(NodoActual != null){
-                NodoActual.reclamo.mostrarInfo();
-                NodoActual = NodoActual.siguiente;
+        for(int i = 0; i < cantidadReclamos; i++){
+            arreglo[i] = nodoActual.reclamo;
+            nodoActual = nodoActual.siguiente;
+        }
+
+        // Ordenamos el arreglo por código único con Bubble Sort O(n^2)
+        for (int i = 0; i < arreglo.length - 1; i++) {
+            for (int j = 0; j < arreglo.length - i - 1; j++) {
+                if (arreglo[j].getCodigoUnico().compareTo(arreglo[j+1].getCodigoUnico()) > 0) {
+                    Reclamos temp = arreglo[j];
+                    arreglo[j] = arreglo[j+1];
+                    arreglo[j+1] = temp;
+                }
             }
-        }        
+        }
+
+        // 3. Ahora sí la busqueda binaria O(log n) - descarta mitad a mitad
+        int izquierda = 0;
+        int derecha = arreglo.length - 1;
+
+        while (izquierda <= derecha) {
+            int medio = (izquierda + derecha) / 2;
+            int comparacion = arreglo[medio].getCodigoUnico().compareTo(codigoUnico);
+
+            if (comparacion == 0) {
+                System.out.println("  [Búsqueda Binaria] Reclamo encontrado en posición " + medio + " del arreglo ordenado.");
+                return arreglo[medio];
+            } else if (comparacion < 0) {
+                izquierda = medio + 1; // el buscado está en la mitad derecha
+            } else {
+                derecha = medio - 1;   // el buscado está en la mitad izquierda
+            }
+        }
+
+        System.out.println("No se encontró reclamo con código: " + codigoUnico);
+        return null;
     }
-   */
-    
-    
+     
     //Muestra todos los reclamos ordenados por prioridad usando el InsertionSort
     // tiene de complejidad el O(n^2) por el ordenamiento cuadratico
     public void consultarReclamos(){
@@ -116,6 +177,24 @@ public class ListaReclamos {
             NodoActual = NodoActual.siguiente;
         }
         
+    }
+    public void mostrarPorTipoReclamo(String tipo){
+        NodoLista NodoActual = iniciolista;
+        boolean encontrado = false;
+        
+        while(NodoActual != null){
+            if(NodoActual.reclamo.getTipoReclamo().equalsIgnoreCase(tipo)){
+                NodoActual.reclamo.mostrarInfo();
+                encontrado = true;
+            }
+            NodoActual = NodoActual.siguiente;
+        }
+        
+        // Si no se encontraron reclamos
+        if(encontrado == false){
+            System.out.println("No existen reclamos de este tipo.");
+        }
+                
     }    
     
 }
