@@ -145,5 +145,24 @@ public class ListaReclamos {
         }
         
     }    
+        
+    public void mostrarPorTipoReclamo(String tipo){
+        NodoLista NodoActual = iniciolista;
+        boolean encontrado = false;
+        
+        while(NodoActual != null){
+            if(NodoActual.reclamo.getTipoReclamo().equalsIgnoreCase(tipo)){
+                NodoActual.reclamo.mostrarInfo();
+                encontrado = true;
+            }
+            NodoActual = NodoActual.siguiente;
+        }
+        
+        // Si no se encontraron reclamos
+        if(encontrado == false){
+            System.out.println("No existen reclamos de este tipo.");
+        }
+                
+    }
     
 }
