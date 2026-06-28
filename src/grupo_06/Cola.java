@@ -1,6 +1,6 @@
 package grupo_06;
 
-public class Cola{  // solucione el error de que faltaba el corchete jsjsjs
+public class Cola{ 
     private NodoLista elfrente;
     private NodoLista elfinal;
     private int tamanio;
@@ -11,8 +11,6 @@ public class Cola{  // solucione el error de que faltaba el corchete jsjsjs
         this.elfinal = null;
         this.tamanio = 0;
     }
-
-   
 
     public void InsertarEnlaCola(Reclamos reclamo){
         NodoLista nuevoNodo = new NodoLista(reclamo);
@@ -85,9 +83,5 @@ public class Cola{  // solucione el error de que faltaba el corchete jsjsjs
         
             Dato=Dato.siguiente;
         }
-        
-       
     }
-
-
 }

@@ -7,7 +7,6 @@ public class NodoArbol {
     NodoArbol izquierda;
     NodoArbol derecha;
 
-    
     //Constructor para crear una hoja
     public NodoArbol(Reclamos reclamo){
         this.reclamo = reclamo;
@@ -15,6 +14,7 @@ public class NodoArbol {
         this.derecha = null;
        
     }
+    
     //Getters
     public Reclamos getReclamo() {
         return reclamo;

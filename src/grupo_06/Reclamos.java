@@ -1,7 +1,7 @@
 package grupo_06;
 
 public class Reclamos { 
-    private String codigoUnico; 
+    private int codigoUnico; 
     private String Nombre;
     private String Rut;
     private String tipoReclamo;
@@ -12,7 +12,7 @@ public class Reclamos {
     private String fechaLimite;
 
     // Constructor
-    public Reclamos(String codigoUnico, String nombreCiudadano, String rutCiudadano, 
+    public Reclamos(int codigoUnico, String nombreCiudadano, String rutCiudadano, 
                    String tipoReclamo, String descripcion, String fechaIngreso, 
                    String estadoReclamo, int nivelPrioridad, String fechaLimite) {
         this.codigoUnico = codigoUnico;
@@ -25,9 +25,9 @@ public class Reclamos {
         this.nivelPrioridad = nivelPrioridad;
         this.fechaLimite = fechaLimite;
     }
-// Getters
+    // Getters
 
-        public String getCodigoUnico() {
+        public int getCodigoUnico() {
             return codigoUnico;
         }
 
@@ -65,7 +65,7 @@ public class Reclamos {
  
 // Setters
 
-        public void setCodigoUnico(String codigoUnico) {
+        public void setCodigoUnico(int codigoUnico) {
             this.codigoUnico = codigoUnico;
         }
 
@@ -101,8 +101,6 @@ public class Reclamos {
             this.fechaLimite = fechaLimite;
         }
         
-        
-    
         public void mostrarInfo(){
             System.out.println("\nInformacion del reclamo con código [" + getCodigoUnico() + "]");
             System.out.println("Nombre: " + Nombre);
