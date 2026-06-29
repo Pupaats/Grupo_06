@@ -40,7 +40,7 @@ public class Cola{
 
         tamanio--;
 
-        System.out.println("El reclamo identificado con el codigo: "+ reclamofiniquitado.getCodigoUnico() + "ha sido atendido.");
+        //System.out.println("El reclamo identificado con el codigo: "+ reclamofiniquitado.getCodigoUnico() + "ha sido atendido.");
 
         return reclamofiniquitado;
     } 
