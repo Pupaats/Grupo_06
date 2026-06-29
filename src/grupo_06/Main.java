@@ -232,7 +232,8 @@ public class Main {
 
         switch(opcionConsultar){
             case 1: 
-                listita.consultarReclamos();
+                //listita.consultarReclamos();
+                arbolito.MostrarInOrden(); // Usamos el árbol en lugar de la lista
                 break;
             case 2:
                 System.out.println("Ingrese la fecha de hoy (DD/MM/AAAA): ");
