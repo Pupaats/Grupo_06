@@ -162,7 +162,7 @@ public class ListaReclamos {
             return;
         }
 
-        int diaslimitereclamo=7;
+        int diaslimitereclamo=31; // 7
         int aniosistema=2026;
 
 
@@ -190,14 +190,14 @@ public class ListaReclamos {
 
             //Si el año es diferente al actual, evita el ingreso del reclamo
             if(aniomaximo != aniosistema){
-                System.out.println("Lo sentimos, el reclamo con el codigo: " + reclamoActual.getCodigoUnico() + ", no podra ser evaluado debido a que es diferente al anio actual: " + aniosistema );
+                //System.out.println("Lo sentimos, el reclamo con el codigo: " + reclamoActual.getCodigoUnico() + ", no podra ser evaluado debido a que es diferente al anio actual: " + aniosistema );
                 NodoActual = NodoActual.siguiente;
                 continue; //se usa continue porque los siguientes reclamos podrian  ser validos
             }
             
             //Evalua que la resta de los meses (mes reclamo del usuario menos el mes actual ejemplo hoy 28/06/26) no hayan pasado el mes actual o lo hayan superado por mas 1 mes
             if(mesmaximo - mesactual < 0 || mesmaximo - mesactual > 1){
-                System.out.println("Este reclamo no sera evaluado: "+ reclamoActual.getCodigoUnico() + ". Debido a que excede la fecha limite de mas de 1 mes de diferencia.");
+                //System.out.println("Este reclamo no sera evaluado: "+ reclamoActual.getCodigoUnico() + ". Debido a que excede la fecha limite de mas de 1 mes de diferencia.");
                 NodoActual = NodoActual.siguiente;
                 continue; //se usa continue porque los siguientes reclamos podrian ser validos
             }
@@ -209,7 +209,7 @@ public class ListaReclamos {
                 /*
                     Basicamente esto es un caso en donde si la fecha limite cae en el mes posterior: se adcionan los dias del mes actual mas los del posterior
                  */
-                diasRestantes = (30 - diaactual) + diasmaximos;
+                diasRestantes = (31 - diaactual) + diasmaximos; // 30
             }
             
             //si diasrestantes es menor a 0, se imprime el dia eliminando el signo
