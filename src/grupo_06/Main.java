@@ -44,8 +44,7 @@ public class Main {
             System.out.println("5. Mostrar historial de cambios");
             System.out.println("6. Salir");
             System.out.print("Seleccione una opción: ");
-            opcion = sc.nextInt();
-            sc.nextLine();
+            opcion = leerEnteroSeguro(sc);
         
             switch(opcion){
                 case 1:
@@ -139,7 +138,6 @@ public class Main {
         System.out.println("8. Fecha límite");
         System.out.println("Seleccione una opción: ");
         int opcionModificar = leerEnteroSeguro(sc);
-        sc.nextLine(); // limpiar
 
         switch(opcionModificar){
             case 1:
@@ -231,7 +229,6 @@ public class Main {
         System.out.println("5. Regresar");
         System.out.println("Seleccione una opción: ");
         int opcionConsultar = leerEnteroSeguro(sc);
-        sc.nextLine();
 
         switch(opcionConsultar){
             case 1: 
@@ -265,8 +262,7 @@ public class Main {
         System.out.println("Tipos de reclamo a consultar: ");
         System.out.println("1. Salud\n2. Seguridad\n3. Educación\n4. Emergencia\n5. Otro\nSeleccione tipo de reclamo: ");        
         
-        int tipoFiltrado = sc.nextInt();
-        sc.nextLine();
+        int tipoFiltrado = leerEnteroSeguro(sc);
         
         if(tipoFiltrado < 1 || tipoFiltrado > 5){
             System.out.println("[Error] Opción inválida."); 
@@ -314,8 +310,7 @@ public class Main {
         System.out.println("Tipos de reclamo: ");
         System.out.println("1. Salud\n2. Seguridad\n3. Educación\n4. Emergencia\n5. Otro\nSeleccione tipo de reclamo: ");
         
-        int tipoElegido = sc.nextInt();
-        sc.nextLine();
+        int tipoElegido = leerEnteroSeguro(sc);
         
         if(tipoElegido < 1 || tipoElegido > 5){
             System.out.println("[Error] Opción inválida."); 
