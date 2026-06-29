@@ -127,12 +127,12 @@ public class ListaReclamos {
         return cantidadReclamos; // cambio para que sea o(1)
     }
     
-    // Extra ---> Eliminar luego
     public void mostrarCodigos(){
         NodoLista NodoActual = iniciolista;
         
         while(NodoActual != null){
-            System.out.println("Codigo: [" + NodoActual.reclamo.getCodigoUnico() + "]");
+            System.out.println("[CÓDIGO: " + NodoActual.reclamo.getCodigoUnico() +"]"+
+                    " A nombre de: " + NodoActual.reclamo.getNombre() +" ("+NodoActual.reclamo.getEstadoReclamo()+")"); 
             NodoActual = NodoActual.siguiente;
         }
         
