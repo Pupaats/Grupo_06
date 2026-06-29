@@ -21,7 +21,7 @@ public class Reclamos {
         this.tipoReclamo = tipoReclamo;
         this.descripcion = descripcion;
         this.fechaIngreso = fechaIngreso;
-        this.estadoReclamo = estadoReclamo;
+        this.estadoReclamo = "Pendiente";
         this.nivelPrioridad = nivelPrioridad;
         this.fechaLimite = fechaLimite;
     }
@@ -111,6 +111,7 @@ public class Reclamos {
             System.out.println("Tipo: " + tipoReclamo);
             System.out.println("Descripcion: " + descripcion);
             System.out.println("Fecha de ingreso: " + fechaIngreso);
+            System.out.println("Estado: " + estadoReclamo);
             System.out.println("Nivel de prioridad: " + nivelPrioridad);
             System.out.println("Fecha limite de respuesta: " + fechaLimite + "\n");
         }
