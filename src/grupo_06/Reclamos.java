@@ -104,20 +104,19 @@ public class Reclamos {
         
     
         public void mostrarInfo(){
-            System.out.println("\nInformacion del reclamo con código [" + getCodigoUnico() + "]");
-            System.out.println("- - - - - - - - - - - - - - - - - - - - -");
-            System.out.println("Nombre: " + Nombre);
-            System.out.println("Rut: " + Rut);
-            System.out.println("Tipo: " + tipoReclamo);
-            System.out.println("Descripcion: " + descripcion);
-            System.out.println("Fecha de ingreso: " + fechaIngreso);
-            System.out.println("Estado: " + estadoReclamo);
-            System.out.println("Nivel de prioridad: " + nivelPrioridad);
-            System.out.println("Fecha limite de respuesta: " + fechaLimite + "\n");
+            System.out.println("\n===================================");
+            System.out.println("INFORMACIÓN DEL RECLAMO CÓDIGO [" + getCodigoUnico() + "]");
+            System.out.println("--------------ATENCIÓN-------------");    
+            System.out.println("ESTADO: " + estadoReclamo);    
+            System.out.println("PRIORIDAD: " + nivelPrioridad);    
+            System.out.println("---------------DATOS---------------");    
+            System.out.println("NOMBRE: " + Nombre);
+            System.out.println("RUT: " + Rut);           
+            System.out.println("TIPO: " + tipoReclamo);
+            System.out.println("DESCRIPCION: " + descripcion);
+            System.out.println("FECHA DE INGRESO: " + fechaIngreso);
+            System.out.println("FECHA LÍMITE: " + fechaLimite + "\n");
         }
         
+      
 }
-
-
-
-
