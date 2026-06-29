@@ -120,11 +120,11 @@ public class Main {
         
         System.out.println("Ingrese el código del reclamo que quiere modificar: ");
         int codigoReclamo = leerEnteroSeguro(sc);
-        Reclamos reclamo = arbolito.buscar(codigoReclamo);
-                  
-        if(reclamo == null){
-            System.out.println("[Error] No existe un reclamo con ese código.");
-            return;
+        Reclamos reclamo = listita.buscarReclamo(codigoReclamo);
+              
+            if(reclamo == null){
+                System.out.println("[Error] No existe un reclamo con ese código.");
+                return;
         }
         
 
