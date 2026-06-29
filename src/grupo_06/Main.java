@@ -18,19 +18,19 @@ public class Main {
         arbolito.insertar(test1);
         colita.InsertarEnlaCola(test1);
         listita.registrarReclamo(test1);
-        pilita.registrarCambios(test1.getCodigoUnico(), "Se registró el reclamo");
+        pilita.registrarCambios(test1.getCodigoUnico(), "Se registró el reclamo.");
         
         Reclamos test2 = new Reclamos(666, "Juan Fuentes", "98.765.432-1", "Seguridad", "Lo asaltaron :v", "21/06/2026", "Pendiente", 1, "30/06/2026");
         arbolito.insertar(test2);
         colita.InsertarEnlaCola(test2);
         listita.registrarReclamo(test2);        
-        pilita.registrarCambios(test2.getCodigoUnico(), "Se registró el reclamo");
+        pilita.registrarCambios(test2.getCodigoUnico(), "Se registró el reclamo.");
         
         Reclamos test3 = new Reclamos(712, "Pedro Pro", "98.765.432-1", "Otro", "Descripcion pepe", "21/06/2026", "Pendiente", 3, "12/08/2026");
         arbolito.insertar(test3);
         colita.InsertarEnlaCola(test3);
         listita.registrarReclamo(test3);        
-        pilita.registrarCambios(test3.getCodigoUnico(), "Se registró el reclamo");       
+        pilita.registrarCambios(test3.getCodigoUnico(), "Se registró el reclamo.");       
         
         int opcion;
         
@@ -77,7 +77,7 @@ public class Main {
             return;
         }
             System.out.println("\n== Submenú: Gestión de reclamos ==");
-            System.out.println("1. Atender reclamo");
+            System.out.println("1. Atender reclamo en cola");
             System.out.println("2. Modificar reclamo");
             System.out.println("3. Eliminar reclamo");        
             System.out.print("Seleccione una opción: ");             
@@ -123,21 +123,21 @@ public class Main {
         }        
         
         System.out.println("\n== Menú Eliminar =="); 
-        System.out.println("Reclamos activos: ");
+        System.out.println("Reclamos en el sistema: ");
         listita.mostrarCodigos();        
         
         System.out.println("Ingrese el código del reclamo que quiere eliminar: ");
         int codigoReclamo = leerEnteroSeguro(sc);
         
         Reclamos reclamo = listita.buscarReclamo(codigoReclamo);
-        
+            
         if(reclamo == null){
             System.out.println("[Error] No existe un reclamo con ese código.");
             return;
         }
         
         System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] eliminado.");
-        pilita.registrarCambios(reclamo.getCodigoUnico(), "Se eliminó del sistema" );
+        pilita.registrarCambios(reclamo.getCodigoUnico(), "Se eliminó del sistema." );
         arbolito.eliminar(codigoReclamo);
         listita.eliminarReclamo(codigoReclamo);              
        
@@ -258,8 +258,8 @@ public class Main {
 
 
         System.out.println("\n== Menú Consultas ==");
-        System.out.println("1. Mostrar todos (Ordenado por prioridad)");
-        System.out.println("2. Mostrar reclamos próximos a vencer");
+        System.out.println("1. Mostrar reclamos próximos a vencer");
+        System.out.println("2. Mostrar todos (Ordenado por prioridad)");
         System.out.println("3. Filtrar por tipo de reclamo");
         System.out.println("4. Buscar reclamo por código único");
         System.out.println("Seleccione una opción: ");
@@ -267,13 +267,12 @@ public class Main {
 
         switch(opcionConsultar){
             case 1: 
-                //listita.consultarReclamos();
-                arbolito.MostrarInOrden(); // Usamos el árbol en lugar de la lista
-                break;
-            case 2:
                 System.out.println("Ingrese la fecha de hoy (DD/MM/AAAA): ");
                 String fechaHoy = sc.nextLine();
                 listita.MostrarReclamosAvencer(fechaHoy);
+                break;
+            case 2:
+                arbolito.MostrarInOrden(); // Usamos el árbol en lugar de la lista
                 break;
             case 3:
                 buscarPorTipo(sc, listita);
@@ -388,7 +387,7 @@ public class Main {
         arbolito.insertar(nuevoReclamo);
         colita.InsertarEnlaCola(nuevoReclamo);
         listita.registrarReclamo(nuevoReclamo);
-        pilita.registrarCambios(nuevoReclamo.getCodigoUnico(), "Reclamo registrado");
+        pilita.registrarCambios(nuevoReclamo.getCodigoUnico(), "Se registró el reclamo.");
     }
 
     //metodo para que no se rompa si ingresan strings en los ints
