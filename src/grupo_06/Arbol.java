@@ -18,11 +18,11 @@ public class Arbol {
         if (nodo == null){
             return new NodoArbol(reclamo);
         }
-        // Si el nuevo reclamo tiene mayor prioridad se va a la izquierda
-        if(reclamo.getNivelPrioridad() > nodo.reclamo.getNivelPrioridad()){
+        // Si el el reclamo un numero de prioridad menor, se va a la izquierda
+        if(reclamo.getNivelPrioridad() < nodo.reclamo.getNivelPrioridad()){
             nodo.izquierda = insertarRecursivo(nodo.izquierda, reclamo);
         } 
-        // Si tiene menor o igual prioridad, va a la derecha permite prioridades repetidas
+        // Si tiene un numero mayor de prioridad, se va a la derecha
         else {
             nodo.derecha = insertarRecursivo(nodo.derecha, reclamo);
         }
@@ -106,7 +106,8 @@ public class Arbol {
         if(nodo != null){ 
             InOrden(nodo.getIzquierda());
             // Imprimimos mostrando la prioridad para que se note el orden
-            System.out.println("Prioridad: " + nodo.reclamo.getNivelPrioridad() + " | Código: " + nodo.reclamo.getCodigoUnico() + " | Nombre: " + nodo.reclamo.getNombre());
+            //System.out.println("Prioridad: " + nodo.reclamo.getNivelPrioridad() + " | Código: " + nodo.reclamo.getCodigoUnico() + " | Nombre: " + nodo.reclamo.getNombre());
+            nodo.reclamo.mostrarInfo();
             InOrden(nodo.getDerecha());
         }
     }
