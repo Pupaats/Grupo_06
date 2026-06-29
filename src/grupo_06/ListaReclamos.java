@@ -1,7 +1,5 @@
 package grupo_06;
 
-
-// Falta el eliminar reclamo y la busqueda binaria, lo vemos despues
 public class ListaReclamos {
     private NodoLista iniciolista;
     private NodoLista finallista;
@@ -139,8 +137,8 @@ public class ListaReclamos {
         }
         
     }    
-        
-    public void mostrarPorTipoReclamo(String tipo){
+
+     public void mostrarPorTipoReclamo(String tipo){
         NodoLista NodoActual = iniciolista;
         boolean encontrado = false;
         
@@ -157,18 +155,27 @@ public class ListaReclamos {
             System.out.println("No existen reclamos de este tipo.");
         }
     }
+
     
-    // Nuevo de Aaron
     public void MostrarReclamosAvencer(String fechaActual){
         if(iniciolista==null){
             return;
         }
 
         int diaslimitereclamo=7;
+        int aniosistema=2026;
 
-        String[] divisor_mes_dia=fechaActual.split("/");
-        int diaactual=Integer.parseInt(divisor_mes_dia[0]);
-        int mesactual=Integer.parseInt(divisor_mes_dia[1]);
+
+        //Se almacenan los datos de la fecha en indices para luego trabajar con ellos como enteros para finalmente evaluar su validez.
+        String[] divisor_mes_dia_anio=fechaActual.split("/");
+        int diaactual=Integer.parseInt(divisor_mes_dia_anio[0]);
+        int mesactual=Integer.parseInt(divisor_mes_dia_anio[1]);
+        int anioactual=Integer.parseInt(divisor_mes_dia_anio[2]);
+
+         if(anioactual != aniosistema){
+            System.out.println("No es posible agregar el reclamo, La fecha ingresada no corresponde al anio actual (" + aniosistema + ").");
+            return;
+        }
 
         NodoLista NodoActual=iniciolista;
          while(NodoActual != null){
@@ -178,6 +185,22 @@ public class ListaReclamos {
             String[] almacenadordedatos = reclamoActual.getFechaLimite().split("/");
             int diasmaximos= Integer.parseInt(almacenadordedatos[0]);
             int mesmaximo = Integer.parseInt(almacenadordedatos[1]);
+            int aniomaximo= Integer.parseInt(almacenadordedatos[2]);
+        
+
+            //Si el año es diferente al actual, evita el ingreso del reclamo
+            if(aniomaximo != aniosistema){
+                System.out.println("Lo sentimos, el reclamo con el codigo: " + reclamoActual.getCodigoUnico() + ", no podra ser evaluado debido a que es diferente al anio actual: " + aniosistema );
+                NodoActual = NodoActual.siguiente;
+                continue; //se usa continue porque los siguientes reclamos podrian  ser validos
+            }
+            
+            //Evalua que la resta de los meses (mes reclamo del usuario menos el mes actual ejemplo hoy 28/06/26) no hayan pasado el mes actual o lo hayan superado por mas 1 mes
+            if(mesmaximo - mesactual < 0 || mesmaximo - mesactual > 1){
+                System.out.println("Este reclamo no sera evaluado: "+ reclamoActual.getCodigoUnico() + ". Debido a que excede la fecha limite de mas de 1 mes de diferencia.");
+                NodoActual = NodoActual.siguiente;
+                continue; //se usa continue porque los siguientes reclamos podrian ser validos
+            }
             
             int diasRestantes;
             if(mesmaximo == mesactual){
@@ -204,9 +227,9 @@ public class ListaReclamos {
             
             NodoActual = NodoActual.siguiente;
         }
-
-
+        
+    
+                
     }
-
     
 }
