@@ -22,7 +22,7 @@ public class Cola{
             elfinal = nuevoNodo;
         }
         tamanio++;
-        System.out.println("el reclamo identificado con el codigo: " + reclamo.getCodigoUnico()+ "Se ha ingresado al sistema");
+        System.out.println("-> El reclamo identificado con el código [" + reclamo.getCodigoUnico()+ "] se ingresó al sistema.");
         }
 
     public Reclamos RetirarDeLaCola(){
