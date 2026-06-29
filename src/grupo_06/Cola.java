@@ -1,6 +1,6 @@
 package grupo_06;
 
-public class Cola{
+public class Cola{ 
     private NodoLista elfrente;
     private NodoLista elfinal;
     private int tamanio;
@@ -12,8 +12,6 @@ public class Cola{
         this.tamanio = 0;
     }
 
-   
-
     public void InsertarEnlaCola(Reclamos reclamo){
         NodoLista nuevoNodo = new NodoLista(reclamo);
         if (elfinal == null){
@@ -24,7 +22,7 @@ public class Cola{
             elfinal = nuevoNodo;
         }
         tamanio++;
-        System.out.println("-> El reclamo identificado con el codigo: [" + reclamo.getCodigoUnico() + "] se ha ingresado al sistema.");
+        System.out.println("el reclamo identificado con el codigo: " + reclamo.getCodigoUnico()+ "Se ha ingresado al sistema");
         }
 
     public Reclamos RetirarDeLaCola(){
@@ -42,7 +40,7 @@ public class Cola{
 
         tamanio--;
 
-        System.out.println("-> El reclamo identificado con el codigo: "+ reclamofiniquitado.getCodigoUnico() + "ha sido atendido.");
+        System.out.println("El reclamo identificado con el codigo: "+ reclamofiniquitado.getCodigoUnico() + "ha sido atendido.");
 
         return reclamofiniquitado;
     } 
@@ -69,7 +67,7 @@ public class Cola{
 
     public void MostrarColaSistema(){
         if(LaColaEstaVacia()){
-            System.out.println("Ya no quedan reclamos en el sistema.");
+            System.out.println("ya no quedan reclamos en el sistema.");
             return;
         }
    
@@ -85,9 +83,5 @@ public class Cola{
         
             Dato=Dato.siguiente;
         }
-        
-       
     }
-
-
 }

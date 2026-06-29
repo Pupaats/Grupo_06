@@ -32,10 +32,10 @@ public class ListaReclamos {
     tiene de complejidad O(n) porque en el peor de los casos se tendria que recorrer la lista completa  
     */
     
-    public Reclamos buscarReclamo(String codigoUnico){
+    public Reclamos buscarReclamo(int codigoUnico){
         NodoLista actual = iniciolista;
         while(actual != null){
-            if(actual.reclamo.getCodigoUnico().equals(codigoUnico)){
+            if(actual.reclamo.getCodigoUnico() == codigoUnico){
                 return actual.reclamo;
             }
             actual = actual.siguiente;
@@ -43,61 +43,50 @@ public class ListaReclamos {
         return null; // no lo encontro
     } 
     
-//Busqueda Binaria
-    public Reclamos busquedaBinaria(String codigoUnico) {
-        if (iniciolista == null) {
-            System.out.println("No hay reclamos.");
-            return null;
-        }
+    //Busqueda Binaria
+    public Reclamos busquedaBinariaPorPrioridad(int prioridadBuscada) {
+        if (iniciolista == null) return null;
 
+        //pasa los elementos de la lista enlazada a un array temporal
         Reclamos[] arreglo = new Reclamos[cantidadReclamos];
-        NodoLista nodoActual = iniciolista;
-
-        for(int i = 0; i < cantidadReclamos; i++){
-            arreglo[i] = nodoActual.reclamo;
-            nodoActual = nodoActual.siguiente;
+        NodoLista actual = iniciolista;
+        int i = 0;
+        while (actual != null) {
+            arreglo[i] = actual.reclamo;
+            actual = actual.siguiente;
+            i++;
         }
+        Ordenamiento.QuickSortReclamos(arreglo, 0, arreglo.length - 1);
 
-        // Ordenamos el arreglo por código único con Bubble Sort O(n^2)
-        for (int i = 0; i < arreglo.length - 1; i++) {
-            for (int j = 0; j < arreglo.length - i - 1; j++) {
-                if (arreglo[j].getCodigoUnico().compareTo(arreglo[j+1].getCodigoUnico()) > 0) {
-                    Reclamos temp = arreglo[j];
-                    arreglo[j] = arreglo[j+1];
-                    arreglo[j+1] = temp;
-                }
+        //aplicamos busqueda binaria sobre el arreglo ya ordenado
+        int inicio = 0;
+        int fin = arreglo.length - 1;
+
+        while (inicio <= fin) {
+            int medio = inicio + (fin - inicio) / 2;
+            int prioridadMedio = arreglo[medio].getNivelPrioridad();
+
+            if (prioridadMedio == prioridadBuscada) {
+                return arreglo[medio]; 
             }
-        }
 
-        // 3. Ahora sí la busqueda binaria O(log n) - descarta mitad a mitad
-        int izquierda = 0;
-        int derecha = arreglo.length - 1;
-
-        while (izquierda <= derecha) {
-            int medio = (izquierda + derecha) / 2;
-            int comparacion = arreglo[medio].getCodigoUnico().compareTo(codigoUnico);
-
-            if (comparacion == 0) {
-                System.out.println("  [Búsqueda Binaria] Reclamo encontrado en posición " + medio + " del arreglo ordenado.");
-                return arreglo[medio];
-            } else if (comparacion < 0) {
-                izquierda = medio + 1; // el buscado está en la mitad derecha
+            if (prioridadMedio < prioridadBuscada) {
+                inicio = medio + 1;
             } else {
-                derecha = medio - 1;   // el buscado está en la mitad izquierda
+                fin = medio - 1;
             }
         }
 
-        System.out.println("No se encontró reclamo con código: " + codigoUnico);
-        return null;
+        return null; 
     }
     
     
-   public boolean eliminarReclamo(String codigoUnico){
+   public boolean eliminarReclamo(int codigoUnico){
         NodoLista NodoActual = iniciolista;
         NodoLista NodoAnterior = null;
  
         while(NodoActual != null){
-            if(NodoActual.reclamo.getCodigoUnico().equals(codigoUnico)){
+            if(NodoActual.reclamo.getCodigoUnico() == codigoUnico){
                 if(NodoAnterior == null && NodoActual == finallista){
                     iniciolista = null;
                     finallista = null;
@@ -123,39 +112,17 @@ public class ListaReclamos {
     //Muestra todos los reclamos ordenados por prioridad usando el InsertionSort
     // tiene de complejidad el O(n^2) por el ordenamiento cuadratico
     public void consultarReclamos(){
+        NodoLista NodoActual = iniciolista;
         
-        if(iniciolista == null){
+        if(NodoActual == null){
             System.out.println("Aún no hay reclamos registrados.");
         }else{
-            NodoLista NodoActual = iniciolista;
-
-            Reclamos[] arreglo = new Reclamos[cantidadReclamos];
-
-            // Agregamos en cada indice un reclamo
-            for(int i=0; i<cantidadReclamos; i++){
-                arreglo[i] = NodoActual.reclamo;
+            System.out.println("Reclamos registrados: ");
+            while(NodoActual != null){
+                NodoActual.reclamo.mostrarInfo();
                 NodoActual = NodoActual.siguiente;
             }
- 
-            // Ordenamos el arreglo según el nivel de prioridad utilizando Insertion O(n^2) en el peor caso
-            // y O(n) si ya esta ordenado
-            int n = arreglo.length;
-            for(int i=1; i<n; i++){
-                Reclamos key = arreglo[i];
-                int j = i-1;
-
-                while(j >= 0 && arreglo[j].getNivelPrioridad() > key.getNivelPrioridad()){
-                    arreglo[j+1] = arreglo[j];
-                    j--;
-                }
-                arreglo[j+1] = key;
-            }     
-
-            System.out.println("Reclamos registrados: ");
-            for(Reclamos reclamo : arreglo){
-                reclamo.mostrarInfo();
-            }
-        }
+        }        
     }
     
     public int obtenerTamaño(){
@@ -192,7 +159,7 @@ public class ListaReclamos {
     }
     
     // Nuevo de Aaron
-     public void MostrarReclamosAvencer(String fechaActual){
+    public void MostrarReclamosAvencer(String fechaActual){
         if(iniciolista==null){
             return;
         }

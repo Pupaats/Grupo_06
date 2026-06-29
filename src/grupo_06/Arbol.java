@@ -29,71 +29,74 @@ public class Arbol {
         
         return nodo;
     }
-    
-    // Buscar revisa todo el árbol porque está ordenado por prioridad, no por código
-    public Reclamos buscar(String codigoUnico) {
-        return buscarRecursivo(raiz, codigoUnico);
+    //Buscar ahora busca usando prioridad
+    public Reclamos buscar(int nivelPrioridad) {
+        return buscarRecursivo(raiz, nivelPrioridad);
     }
 
-    private Reclamos buscarRecursivo(NodoArbol nodo, String codigoUnico) {
+    private Reclamos buscarRecursivo(NodoArbol nodo, int nivelPrioridad) {
         if (nodo == null) {
             return null;
         }
-        if (nodo.reclamo.getCodigoUnico().trim().equalsIgnoreCase(codigoUnico.trim())) {
-            return nodo.getReclamo();
+        
+        if (nivelPrioridad == nodo.reclamo.getNivelPrioridad()) {
+            return nodo.reclamo;
         }
         
-        // Busca por la izquierda
-        Reclamos encontradoIzq = buscarRecursivo(nodo.izquierda, codigoUnico);
-        if (encontradoIzq != null) {
-            return encontradoIzq;
+        //si la prioridad que busca es mayor, está a la izquierda
+        if (nivelPrioridad > nodo.reclamo.getNivelPrioridad()) {
+            return buscarRecursivo(nodo.izquierda, nivelPrioridad);
+        } else {
+            return buscarRecursivo(nodo.derecha, nivelPrioridad);
         }
+    }
         
-        // Si no estaba en la izquierda, busca en la derecha
-        return buscarRecursivo(nodo.derecha, codigoUnico);
-    }
-    
-    private NodoArbol encontrarReemplazo(NodoArbol nodo){
-        // Va todo a la izquierda para encontrar el valor de reemplazo
-        while(nodo.izquierda != null){
-            nodo = nodo.izquierda;
-        }   
-        return nodo;
-    }
-    
-    // Eliminar busca por todo el árbol y luego borra
-    public void eliminar (String codigoUnico){
-        raiz = eliminarRecursivo(raiz, codigoUnico);
+    public void eliminar(int nivelPrioridad) {
+        raiz = eliminarRecursivo(raiz, nivelPrioridad);
     }
 
-    private NodoArbol eliminarRecursivo(NodoArbol nodo, String codigoUnico){
-        if(nodo == null) return null; // Por si no encuentra
-        if(nodo.reclamo.getCodigoUnico().trim().equalsIgnoreCase(codigoUnico.trim())){
-            // caso 1 nodo hoja
-            if(nodo.izquierda == null && nodo.derecha == null){
-                return null; 
-            }
-            // caso 2 que solo tiene hijo derecho
-            if(nodo.izquierda == null){
+    private NodoArbol eliminarRecursivo(NodoArbol nodo, int nivelPrioridad) {
+        if (nodo == null) { // Revisa si esta vacio
+            return null;
+        }
+        // aqui lo de siempre si es mayor a la izquierda si es menor a la derecha
+        if (nivelPrioridad > nodo.reclamo.getNivelPrioridad()) {
+            nodo.izquierda = eliminarRecursivo(nodo.izquierda, nivelPrioridad);
+        } else if (nivelPrioridad < nodo.reclamo.getNivelPrioridad()) {
+            nodo.derecha = eliminarRecursivo(nodo.derecha, nivelPrioridad);
+        } else {
+            //encontramos el nodo con la prioridad
+            
+            //caso 1 Nodo hoja o con un solo hijo
+            if (nodo.izquierda == null) {
                 return nodo.derecha;
-            } 
-            // caso 3 cuando solo tiene hijo izquierdo
-            if(nodo.derecha == null){
+            } else if (nodo.derecha == null) {
                 return nodo.izquierda;
             }
-            // caso 4 si tiene 2 hijos
-            NodoArbol siguiente = encontrarReemplazo(nodo.derecha);
-            nodo.reclamo = siguiente.reclamo; // copia los datos
-            // Elimina el duplicado
-            nodo.derecha = eliminarRecursivo(nodo.derecha, siguiente.reclamo.getCodigoUnico());
-            return nodo;
+
+            //caso 2 nodo con dos hijos 
+            nodo.reclamo = encontrarMaximo(nodo.derecha);
+            nodo.derecha = eliminarRecursivo(nodo.derecha, nodo.reclamo.getNivelPrioridad());
         }
-        
-        // Si no es este nodo, seguimos buscando en ambos lados
-        nodo.izquierda = eliminarRecursivo(nodo.izquierda, codigoUnico);
-        nodo.derecha = eliminarRecursivo(nodo.derecha, codigoUnico);
-        
         return nodo;
+    }
+    //busca el que tenga mayor prioridad
+    private Reclamos encontrarMaximo(NodoArbol nodo) {
+        NodoArbol actual = nodo;
+        //vamos a la izquierda porque ahí están los mayores
+        while (actual.izquierda != null) {
+            actual = actual.izquierda;
+        }
+        return actual.reclamo;
+    }
+    //este busca el que tenga prioridad mas baja. aunque no se use ahi lo dejo porsiaca saiuhgufiaf
+    private Reclamos encontrarMinimo(NodoArbol nodo) {
+        NodoArbol actual = nodo;
+        //nos vamos a la derecha porque ahí están los menores
+        while (actual.derecha != null) {
+            actual = actual.derecha;
+        }
+        return actual.reclamo;
     }
     
     /*Ordenamientos InOrden, PreOrden, PostOrden*/

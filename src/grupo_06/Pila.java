@@ -9,7 +9,7 @@ public class Pila {
         this.historialdecambios = new Stack<>();
     }
 
-    public void registrarCambios(String Codigo, String Estado){
+    public void registrarCambios(int Codigo, String Estado){
    
         //System.out.println(" El codigo del reclamo: " + Codigo + " y el cambio: " + Estado);
         String registro = "Reclamo "+ "[" + Codigo + "]: " + Estado;
