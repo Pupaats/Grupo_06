@@ -1,83 +1,169 @@
 package grupo_06;
-
+//Eliminamos el codigoAscii ya que nos daba problemas  :(
 public class Arbol {
     private NodoArbol raiz;
-    
     public Arbol(){
         this.raiz = null;
     }
+    
+    //Inserta un reclamo usando su nivel de prioridad
     public void insertar(Reclamos reclamo){
         raiz = insertarRecursivo(raiz, reclamo);
     }
+
     private NodoArbol insertarRecursivo(NodoArbol nodo, Reclamos reclamo){
-        //Caso base : que no tenga nada
+        //Caso base que no tenga nada
         if (nodo == null){
             return new NodoArbol(reclamo);
         }
-        //Aqui obtiene el valor numerico y compara
-        int codigoNuevo = reclamo.getCodigoUnico();
-        int codigoActual = nodo.reclamo.getCodigoUnico();
-        
-        if(codigoNuevo < codigoActual){
+        //Si el el reclamo un numero de prioridad menor, se va a la izquierda
+        if(reclamo.getNivelPrioridad() < nodo.reclamo.getNivelPrioridad()){
             nodo.izquierda = insertarRecursivo(nodo.izquierda, reclamo);
-            //Si es menor inserta en el lado izquierdo
-        } else if (codigoNuevo > codigoActual){
+        } 
+        //Si tiene un numero mayor de prioridad, se va a la derecha
+        else {
             nodo.derecha = insertarRecursivo(nodo.derecha, reclamo);
-            //Si es mayor inserta en el derecho
+        }
+        
+        return nodo;
+    }
+    //Buscar ahora busca usando prioridad
+    public Reclamos buscar(int nivelPrioridad) {
+        return buscarRecursivo(raiz, nivelPrioridad);
+    }
+
+    private Reclamos buscarRecursivo(NodoArbol nodo, int nivelPrioridad) {
+        if (nodo == null) {
+            return null;
+        }
+        
+        if (nivelPrioridad == nodo.reclamo.getNivelPrioridad()) {
+            return nodo.reclamo;
+        }
+        
+        //si la prioridad que busca es mayor, está a la izquierda
+        if (nivelPrioridad > nodo.reclamo.getNivelPrioridad()) {
+            return buscarRecursivo(nodo.izquierda, nivelPrioridad);
         } else {
-            System.out.println("Ya existe este reclamo" + reclamo.getCodigoUnico());
-            //Si ya habia un reclamo, no permite que se repita
+            return buscarRecursivo(nodo.derecha, nivelPrioridad);
+        }
+    }
+        
+    public void eliminar(int nivelPrioridad) {
+        raiz = eliminarRecursivo(raiz, nivelPrioridad);
+    }
+
+    private NodoArbol eliminarRecursivo(NodoArbol nodo, int nivelPrioridad) {
+        if (nodo == null) { // Revisa si esta vacio
+            return null;
+        }
+        //aqui lo de siempre si es mayor a la izquierda si es menor a la derecha
+        if (nivelPrioridad > nodo.reclamo.getNivelPrioridad()) {
+            nodo.izquierda = eliminarRecursivo(nodo.izquierda, nivelPrioridad);
+        } else if (nivelPrioridad < nodo.reclamo.getNivelPrioridad()) {
+            nodo.derecha = eliminarRecursivo(nodo.derecha, nivelPrioridad);
+        } else {
+            //encontramos el nodo con la prioridad
+            
+            //caso 1 Nodo hoja o con un solo hijo
+            if (nodo.izquierda == null) {
+                return nodo.derecha;
+            } else if (nodo.derecha == null) {
+                return nodo.izquierda;
+            }
+
+            //caso 2 nodo con dos hijos 
+            nodo.reclamo = encontrarMaximo(nodo.derecha);
+            nodo.derecha = eliminarRecursivo(nodo.derecha, nodo.reclamo.getNivelPrioridad());
         }
         return nodo;
+    }
+    //busca el que tenga mayor prioridad
+    private Reclamos encontrarMaximo(NodoArbol nodo) {
+        NodoArbol actual = nodo;
+     //vamos a la izquierda porque ahí están los mayores
+        while (actual.izquierda != null) {
+            actual = actual.izquierda;
         }
-    
-
-    public Reclamos buscar(String Nombre){
-        if(raiz == null){
-            System.out.println("No existe el reclamo");
-            //Si la raíz es nula, el árbol está vacío y no hay nada que buscar
+        return actual.reclamo;
+    }
+    //este busca el que tenga prioridad mas baja. aunque no se use ahi lo dejo por si acaso saiuhgufiaf
+    private Reclamos encontrarMinimo(NodoArbol nodo) {
+        NodoArbol actual = nodo;
+        //nos vamos a la derecha porque ahí están los menores
+        while (actual.derecha != null) {
+            actual = actual.derecha;
         }
-        NodoArbol actual = raiz; //Nodo auxiliar para empezar a recorrer el árbol desde la raiz
-        while(actual != null){ //loop para navegar el árbol mientras queden nodos por revisar
-            if(actual.getReclamo().getNombre().equals(Nombre)){
-                return actual.getReclamo();
-            //Si el nombre buscado es exactamente igual al del nodo actual retorna correctamente
-            }
-            char[] aux = actual.reclamo.getNombre().toCharArray(); //Si no es igual preparamos la conversion a char
-            // Si comparandoAscii devuelve true, significa que el nombre buscado es menor
-            if(comparandoAscii(Nombre.toCharArray(), aux)){
-                actual = actual.getIzquierda();// Baja por el subárbol izquierdo
-            } else {
-                actual = actual.getDerecha();// Baja por el subárbol derecho
-            }
-        }
-        System.out.println("No se encontro el reclamo");
-        return null;
+        return actual.reclamo;
     }
     
+    //Ordenamientos InOrden, PreOrden, PostOrden
     
+    //Inorden = Izquierda, Raiz, Derecha
+    private void InOrden(NodoArbol nodo){
+        if(nodo != null){ 
+            InOrden(nodo.getIzquierda());
+            /*Imprimimos mostrando la prioridad para que se note el orden
+            System.out.println("Prioridad: " + nodo.reclamo.getNivelPrioridad() + " | Codigo: " + nodo.reclamo.getCodigoUnico() 
+            + " | Nombre: " + nodo.reclamo.getNombre());*/
+            nodo.reclamo.mostrarInfo();
+            InOrden(nodo.getDerecha());
+        }
+    }
+    public void MostrarInOrden(){
+        if(raiz==null){ 
+            System.out.println("No existen reclamos");
+        } else {
+            InOrden(raiz);
+        }
+    }
     
-    public static boolean comparandoAscii(char [] cadena, char[] comparando){
-        //Esto sirve para comparar 2 caracteres basandose en su valor Ascii
-        //Elige la que va primero en orden alfabetico
-        int valor1 = 0;
-        int valor2 = 0;
-        int posicion = 0;
-        /*Avanza palabra por palabra, si ambas son iguales sigue avanzando
-        si no, compara directamente o cuando llegue al final de la palabra
-        para evitar un desbordamiento
-        */
-        while(valor1 == valor2 && posicion < cadena.length && posicion < comparando.length){
-            valor1 = (int)cadena[posicion]; //convierte el caracter de la palabra a Ascii
-            valor2 = (int)comparando[posicion];
-            posicion++; //Avanzar a la siguiente posicion
+    //PreOrden = Raiz, Izquierda, Derecha
+    private void PreOrden(NodoArbol nodo){
+        if(nodo!=null){ 
+            System.out.println("Prioridad: " + nodo.reclamo.getNivelPrioridad() + " | Código: " + nodo.reclamo.getCodigoUnico());
+            PreOrden(nodo.getIzquierda());
+            PreOrden(nodo.getDerecha());
         }
-        //Aqui evalua, la palabra con menor valor numerico va a la izquierda
-        // y la con mayor valor numerico a la derecha.
-        if(valor1 < valor2){
-            return true;
-        }else{
-            return false;
+    }
+    public void MostrarPreOrden(){
+        if(raiz==null){
+            System.out.println("No existen reclamos");
+        } else {
+            PreOrden(raiz);
         }
+    }
+    
+    //PostOrden = Izquierda, Derecha, Raiz
+    private void PostOrden(NodoArbol nodo){
+        if(nodo!=null){
+            PostOrden(nodo.getIzquierda());
+            PostOrden(nodo.getDerecha());
+            System.out.println("Prioridad: " + nodo.reclamo.getNivelPrioridad() + " | Código: " + nodo.reclamo.getCodigoUnico());
+        }
+    }
+    public void MostrarPostOrden(){
+        if(raiz==null){
+            System.out.println("No existen reclamos");
+        } else {
+            PostOrden(raiz);
+        }
+    }
+    
+    //Extras o Auxiliares
+    
+    public int calcularAltura(){
+        return alturaRec(raiz);
+    }
+    
+    private int alturaRec(NodoArbol nodo){
+        if (nodo == null) return 0; //Si es nulo el arbol esta vacio
+        int altIzq = alturaRec(nodo.izquierda); //Llama recursivamente
+        int altDer = alturaRec(nodo.derecha); 
+        return 1 + Math.max(altIzq, altDer); 
+    }
+    
+    public boolean estaVacio(){
+        return raiz == null;
     }
 }

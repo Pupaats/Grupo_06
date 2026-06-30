@@ -7,15 +7,15 @@ public class NodoArbol {
     NodoArbol izquierda;
     NodoArbol derecha;
 
-    
-    //Constructor para crear una hoja
+    // Constructor para crear una hoja
     public NodoArbol(Reclamos reclamo){
         this.reclamo = reclamo;
         this.izquierda = null;
         this.derecha = null;
        
     }
-    //Getters
+    
+    // Getters
     public Reclamos getReclamo() {
         return reclamo;
     }
@@ -28,7 +28,7 @@ public class NodoArbol {
         return derecha;
     }
     
-    //Setters
+    // Setters
     public void setReclamo(Reclamos reclamo) {
         this.reclamo = reclamo;
     }
