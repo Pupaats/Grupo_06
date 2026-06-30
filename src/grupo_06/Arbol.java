@@ -1,14 +1,12 @@
 package grupo_06;
-// Eliminamos el codigoAscii ya que nos daba problemas  :(
-// Usamos trim() y equalsIgnoreCase() para evitar errores por espacios invisibles
+//Eliminamos el codigoAscii ya que nos daba problemas  :(
 public class Arbol {
-   
     private NodoArbol raiz;
     public Arbol(){
         this.raiz = null;
     }
     
-    // Inserta un reclamo usando su nivel de prioridad
+    //Inserta un reclamo usando su nivel de prioridad
     public void insertar(Reclamos reclamo){
         raiz = insertarRecursivo(raiz, reclamo);
     }
@@ -18,11 +16,11 @@ public class Arbol {
         if (nodo == null){
             return new NodoArbol(reclamo);
         }
-        // Si el nuevo reclamo tiene mayor prioridad se va a la izquierda
-        if(reclamo.getNivelPrioridad() > nodo.reclamo.getNivelPrioridad()){
+        //Si el el reclamo un numero de prioridad menor, se va a la izquierda
+        if(reclamo.getNivelPrioridad() < nodo.reclamo.getNivelPrioridad()){
             nodo.izquierda = insertarRecursivo(nodo.izquierda, reclamo);
         } 
-        // Si tiene menor o igual prioridad, va a la derecha permite prioridades repetidas
+        //Si tiene un numero mayor de prioridad, se va a la derecha
         else {
             nodo.derecha = insertarRecursivo(nodo.derecha, reclamo);
         }
@@ -59,7 +57,7 @@ public class Arbol {
         if (nodo == null) { // Revisa si esta vacio
             return null;
         }
-        // aqui lo de siempre si es mayor a la izquierda si es menor a la derecha
+        //aqui lo de siempre si es mayor a la izquierda si es menor a la derecha
         if (nivelPrioridad > nodo.reclamo.getNivelPrioridad()) {
             nodo.izquierda = eliminarRecursivo(nodo.izquierda, nivelPrioridad);
         } else if (nivelPrioridad < nodo.reclamo.getNivelPrioridad()) {
@@ -83,13 +81,13 @@ public class Arbol {
     //busca el que tenga mayor prioridad
     private Reclamos encontrarMaximo(NodoArbol nodo) {
         NodoArbol actual = nodo;
-        //vamos a la izquierda porque ahí están los mayores
+     //vamos a la izquierda porque ahí están los mayores
         while (actual.izquierda != null) {
             actual = actual.izquierda;
         }
         return actual.reclamo;
     }
-    //este busca el que tenga prioridad mas baja. aunque no se use ahi lo dejo porsiaca saiuhgufiaf
+    //este busca el que tenga prioridad mas baja. aunque no se use ahi lo dejo por si acaso saiuhgufiaf
     private Reclamos encontrarMinimo(NodoArbol nodo) {
         NodoArbol actual = nodo;
         //nos vamos a la derecha porque ahí están los menores
@@ -99,14 +97,16 @@ public class Arbol {
         return actual.reclamo;
     }
     
-    /*Ordenamientos InOrden, PreOrden, PostOrden*/
+    //Ordenamientos InOrden, PreOrden, PostOrden
     
     //Inorden = Izquierda, Raiz, Derecha
     private void InOrden(NodoArbol nodo){
         if(nodo != null){ 
             InOrden(nodo.getIzquierda());
-            // Imprimimos mostrando la prioridad para que se note el orden
-            System.out.println("Prioridad: " + nodo.reclamo.getNivelPrioridad() + " | Código: " + nodo.reclamo.getCodigoUnico() + " | Nombre: " + nodo.reclamo.getNombre());
+            /*Imprimimos mostrando la prioridad para que se note el orden
+            System.out.println("Prioridad: " + nodo.reclamo.getNivelPrioridad() + " | Codigo: " + nodo.reclamo.getCodigoUnico() 
+            + " | Nombre: " + nodo.reclamo.getNombre());*/
+            nodo.reclamo.mostrarInfo();
             InOrden(nodo.getDerecha());
         }
     }
@@ -157,8 +157,8 @@ public class Arbol {
     }
     
     private int alturaRec(NodoArbol nodo){
-        if (nodo == null) return 0; // Si es nulo el arbol esta vacio
-        int altIzq = alturaRec(nodo.izquierda); // Llama recursivamente
+        if (nodo == null) return 0; //Si es nulo el arbol esta vacio
+        int altIzq = alturaRec(nodo.izquierda); //Llama recursivamente
         int altDer = alturaRec(nodo.derecha); 
         return 1 + Math.max(altIzq, altDer); 
     }

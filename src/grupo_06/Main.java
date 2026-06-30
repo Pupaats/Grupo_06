@@ -7,35 +7,44 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.setOut(new java.io.PrintStream(System.out, true, java.nio.charset.StandardCharsets.UTF_8));
-        // La linea de arriba permite que en el output se vean las tildes
+        //La linea de arriba permite que en el output se vean las tildes
         
         Arbol arbolito = new Arbol();
         Cola colita = new Cola();
         ListaReclamos listita = new ListaReclamos();
         Pila pilita = new Pila();
         
-        Reclamos test1 = new Reclamos(123, "Señor Wylie", "12.345.678-9", "Salud", "Esta enfermo", "21/06/2026", "Pendiente", 2, "01/07/2026");
+        Reclamos test1 = new Reclamos(123, "Josué Sepúlveda", "12.345.678-9", "Salud", "Esta enfermo", "21/06/2026",
+                "Pendiente", 2, "29/06/2026"); 
         arbolito.insertar(test1);
         colita.InsertarEnlaCola(test1);
         listita.registrarReclamo(test1);
-        pilita.registrarCambios(test1.getCodigoUnico(), "Reclamo registrado");
+        pilita.registrarCambios(test1.getCodigoUnico(), "Se registró el reclamo.");
         
-        Reclamos test2 = new Reclamos(666, "Juan Fuentes", "98.765.432-1", "Seguridad", "Lo asaltaron :v", "21/06/2026", "Pendiente", 1, "01/07/2026");
+        Reclamos test2 = new Reclamos(666, "Francisco Saavedra", "98.765.432-1", "Seguridad", "Lo asaltaron", 
+                "21/06/2026", "Pendiente", 1, "30/06/2026");
         arbolito.insertar(test2);
         colita.InsertarEnlaCola(test2);
         listita.registrarReclamo(test2);        
-        pilita.registrarCambios(test2.getCodigoUnico(), "Reclamo registrado");
+        pilita.registrarCambios(test2.getCodigoUnico(), "Se registró el reclamo.");
+        
+        Reclamos test3 = new Reclamos(712, "Aaron Villagra", "12.412.123-3", "Otro", "Caida grave", 
+                "21/06/2026", "Pendiente", 3, "25/06/2026");
+        arbolito.insertar(test3);
+        colita.InsertarEnlaCola(test3);
+        listita.registrarReclamo(test3);        
+        pilita.registrarCambios(test3.getCodigoUnico(), "Se registró el reclamo.");       
         
         int opcion;
         
         do{
-            
+
             System.out.println("\n==== Gestión de reclamos de San Rafael ====");
-            System.out.println("1. Registrar reclamo");
-            System.out.println("2. Modificar reclamo ");
-            System.out.println("3. Eliminar reclamo");
-            System.out.println("4. Consultar reclamos");
-            System.out.println("5. Salir");
+            System.out.println("1. Registrar nuevo reclamo");
+            System.out.println("2. Gestionar reclamos");
+            System.out.println("3. Consultar reclamos");
+            System.out.println("4. Ver historial de cambios");
+            System.out.println("5. Salir");           
             System.out.print("Seleccione una opción: ");
             opcion = leerEnteroSeguro(sc);
         
@@ -43,22 +52,16 @@ public class Main {
                 case 1:
                     registrarReclamo(sc, arbolito, colita, listita, pilita);
                     break;
-                    
                 case 2:
-                    // Modificar reclamo
-                    modificarReclamo(sc, arbolito, listita);
-                    break;
-                   
+                    gestionarReclamos(sc, arbolito, colita, listita, pilita);
+                    break;       
                 case 3:
-                    // Eliminar reclamos
-                    eliminarReclamo(sc, arbolito, listita);
-                    break;
-                    
-                case 4:
-                    // Consultar reclamos
+                    //Consultar reclamos
                     consultarReclamos(sc, arbolito, listita, pilita);
                     break;
-                    
+                case 4:
+                    pilita.MostrarHistorialDeCambios();
+                    break;                    
                 case 5:
                     System.out.println("Finalizando sistema...");
                     break;
@@ -67,38 +70,83 @@ public class Main {
                     System.out.println("[Error] Opción inválida.");
            
             }
-        }while(opcion != 5);
+        }while(opcion != 6);
              
     }
-    
 
-    private static void eliminarReclamo(Scanner sc, Arbol arbolito, ListaReclamos listita){
+    public static void gestionarReclamos(Scanner sc, Arbol arbolito, Cola colita, ListaReclamos listita, Pila pilita){
+        if(arbolito.estaVacio()){
+            System.out.println("[Error] No existen reclamos.");
+            return;
+        }
+            System.out.println("\n== Submenú: Gestión de reclamos ==");
+            System.out.println("1. Atender reclamo en cola");
+            System.out.println("2. Modificar reclamo");
+            System.out.println("3. Eliminar reclamo");        
+            System.out.print("Seleccione una opción: ");             
+            int opcGestion = leerEnteroSeguro(sc);
+        
+            switch(opcGestion){
+                case 1:
+                    atenderReclamo(arbolito, colita, pilita);
+                    break;
+                case 2:
+                    modificarReclamo(sc, arbolito, listita, pilita);
+                    break;
+                case 3:
+                    eliminarReclamo(sc, arbolito, listita, pilita);
+                    break;
+                default:
+                    System.out.println("[Error] Opción inválida.");      
+            }
+            
+    
+    }
+    
+    public static void atenderReclamo(Arbol arbolito, Cola colita, Pila pilita){
+        if(arbolito.estaVacio()){
+            System.out.println("[Error] No existen reclamos.");
+            return;
+        }           
+        System.out.println("\n== Menú Atender ==");
+        
+        Reclamos reclamo = colita.RetirarDeLaCola();
+        
+        reclamo.setEstadoReclamo("Atendido");
+        System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] atendido con éxito.");
+        pilita.registrarCambios(reclamo.getCodigoUnico(), "Se atendió el reclamo" );
+        
+        
+    }
+    
+    private static void eliminarReclamo(Scanner sc, Arbol arbolito, ListaReclamos listita, Pila pilita){
         if(arbolito.estaVacio()){
             System.out.println("[Error] No existen reclamos.");
             return;
         }        
         
-        System.out.println("\n== Menu Eliminar =="); 
-        System.out.println("Reclamos activos: ");
+        System.out.println("\n== Menú Eliminar =="); 
+        System.out.println("Reclamos en el sistema: ");
         listita.mostrarCodigos();        
         
         System.out.println("Ingrese el código del reclamo que quiere eliminar: ");
         int codigoReclamo = leerEnteroSeguro(sc);
         
         Reclamos reclamo = listita.buscarReclamo(codigoReclamo);
-        
+            
         if(reclamo == null){
             System.out.println("[Error] No existe un reclamo con ese código.");
             return;
         }
         
         System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] eliminado.");
-        arbolito.eliminar(reclamo.getNivelPrioridad());
+        pilita.registrarCambios(reclamo.getCodigoUnico(), "Se eliminó del sistema." );
+        arbolito.eliminar(codigoReclamo);
         listita.eliminarReclamo(codigoReclamo);              
        
     }
     
-    private static void modificarReclamo(Scanner sc, Arbol arbolito, ListaReclamos listita){
+    private static void modificarReclamo(Scanner sc, Arbol arbolito, ListaReclamos listita, Pila pilita){
         if(arbolito.estaVacio()){
             System.out.println("[Error] No existen reclamos.");
             return;
@@ -127,7 +175,6 @@ public class Main {
         System.out.println("6. Estado del reclamo");
         System.out.println("7. Nivel de prioridad");
         System.out.println("8. Fecha límite");
-        System.out.println("9. Regresar");
         System.out.println("Seleccione una opción: ");
         int opcionModificar = leerEnteroSeguro(sc);
 
@@ -136,53 +183,69 @@ public class Main {
                 // codigo unico
                 System.out.println("Codigo único actual: " + reclamo.getCodigoUnico());
                 System.out.println("Ingrese nuevo codigo único: ");
-                reclamo.setCodigoUnico(leerEnteroSeguro(sc));    
+                int nuevoCodigo = leerEnteroSeguro(sc);
+                reclamo.setCodigoUnico(nuevoCodigo);
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
+                pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó el codigo único a:  " + nuevoCodigo);
                 break;
             case 2:
                 System.out.println("Nombre actual: " + reclamo.getNombre());
                 System.out.println("Ingrese nuevo nombre: ");
-                reclamo.setNombre(sc.nextLine());    
+                String nuevoNombre = sc.nextLine();
+                reclamo.setNombre(nuevoNombre);
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
+                pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó el nombre a: " + nuevoNombre);
                 break;
             case 3:
                 System.out.println("RUT actual: " + reclamo.getRut());
                 System.out.println("Ingrese nuevo RUT: ");
-                reclamo.setRut(sc.nextLine());             
+                String nuevoRut = sc.nextLine();
+                reclamo.setRut(nuevoRut);             
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
+                pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó el rut a: " + nuevoRut);
                 break;
             case 4:
+                // CAMBIAR
                 System.out.println("Tipo de reclamo actual: " + reclamo.getTipoReclamo());
                 System.out.println("Ingrese nuevo tipo de reclamo: ");
-                reclamo.setTipoReclamo(sc.nextLine());   
+                String nuevoTipo = sc.nextLine();
+                reclamo.setTipoReclamo(nuevoTipo);   
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
+                pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó el tipo de reclamo a: " + nuevoTipo);
                 break;
             case 5:
                 System.out.println("Descripción actual: " + reclamo.getDescripcion());
                 System.out.println("Ingrese nueva descripción: ");
-                reclamo.setDescripcion(sc.nextLine());    
+                String nuevaDescripcion = sc.nextLine();
+                reclamo.setDescripcion(nuevaDescripcion);    
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
+                pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó la descripción a: " + nuevaDescripcion);
                 break;
             case 6:
+                // CAMBIAR
                 System.out.println("Estado actual: " + reclamo.getEstadoReclamo());
                 System.out.println("Ingrese nuevo estado: ");
-                reclamo.setEstadoReclamo(sc.nextLine());           
+                String nuevoEstado = sc.nextLine();
+                reclamo.setEstadoReclamo(nuevoEstado);           
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
+                pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó el estado a: " + nuevoEstado);
                 break;
             case 7:
                 System.out.println("Nivel de prioridad actual: " + reclamo.getNivelPrioridad());
                 System.out.println("Ingrese nuevo nivel de prioridad: ");
-                reclamo.setNivelPrioridad(leerEnteroSeguro(sc));                  
+                int nuevaPrioridad = sc.nextInt();
+                sc.nextLine();
+                reclamo.setNivelPrioridad(nuevaPrioridad);                  
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
+                pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó el nivel de prioridad a: " + nuevaPrioridad);
                 break;
             case 8:
                 System.out.println("Fecha límite actual: " + reclamo.getFechaLimite());
                 System.out.println("Ingrese nueva fecha límite: ");
-                reclamo.setFechaLimite(sc.nextLine());                
+                String nuevaFechaLimite = sc.nextLine(); 
+                reclamo.setFechaLimite(nuevaFechaLimite);                
                 System.out.println("-> Reclamo ["+ reclamo.getCodigoUnico() + "] modificado con éxito.");
-                break;
-            case 9:
-                System.out.println("Regresando...");
+                pilita.registrarCambios(reclamo.getCodigoUnico(), "Se modificó la fecha límite a: " + nuevaFechaLimite);
                 break;
             default:
                 System.out.println("[Error] Opción inválida.");
@@ -198,30 +261,26 @@ public class Main {
 
 
         System.out.println("\n== Menú Consultas ==");
-        System.out.println("1. Mostrar todos");
-        System.out.println("2. Mostrar el último ingresado");            
-        System.out.println("3. Ordenar por vencimiento (FALTA)");
-        System.out.println("4. Ordenar por tipo (FALTA)");
-        System.out.println("5. Buscar reclamo con código");
-        System.out.println("6. Mostrar reclamos próximos a vencer");
-        System.out.println("7. Regresar");
+        System.out.println("1. Mostrar reclamos próximos a vencer (31 días)");
+        System.out.println("2. Mostrar todos (Ordenado por prioridad)");
+        System.out.println("3. Filtrar por tipo de reclamo");
+        System.out.println("4. Buscar reclamo por código único");
         System.out.println("Seleccione una opción: ");
         int opcionConsultar = leerEnteroSeguro(sc);
 
         switch(opcionConsultar){
             case 1: 
-                listita.consultarReclamos();
+                System.out.println("Ingrese la fecha de hoy (DD/MM/AAAA): ");
+                String fechaHoy = sc.nextLine();
+                listita.MostrarReclamosAvencer(fechaHoy);
                 break;
             case 2:
-                pilita.VerCambioMasReciente();
+                arbolito.MostrarInOrden(); // Usamos el árbol en lugar de la lista
                 break;
             case 3:
-                // ORDENAR POR VENCIMIENTO (HACER)
+                buscarPorTipo(sc, listita);
                 break;
             case 4:
-                // ORDENAR POR TIPO (HACER)
-                break;
-            case 5:
                 System.out.println("Ingrese el código del reclamo: ");
                 Reclamos reclamo = listita.buscarReclamo(leerEnteroSeguro(sc));
                 if(reclamo != null){
@@ -230,18 +289,41 @@ public class Main {
                     System.out.println("[Error] No existe un reclamo con ese código.");
                 }
                 break;               
-            case 6:
-                System.out.println("Ingrese la fecha de hoy (DD/MM/AAAA): ");
-                String fechaHoy = sc.nextLine();
-                listita.MostrarReclamosAvencer(fechaHoy);
-                break;
-            case 7:
-                System.out.println("Regresando...");
-                break;
             default:
                 System.out.println("[Error] Opción inválida.");
         }
       
+    }
+
+    private static void buscarPorTipo(Scanner sc, ListaReclamos listita){
+
+        System.out.println("Tipos de reclamo a consultar: ");
+        System.out.println("1. Salud\n2. Seguridad\n3. Educación\n4. Emergencia\n5. Otro\nSeleccione tipo de reclamo: ");        
+        
+        int tipoFiltrado = leerEnteroSeguro(sc);
+        
+        if(tipoFiltrado < 1 || tipoFiltrado > 5){
+            System.out.println("[Error] Opción inválida."); 
+            return;
+        }
+        
+        String tipoMostrado;
+        
+        if(tipoFiltrado == 1){
+        tipoMostrado = "Salud";
+        }else if(tipoFiltrado == 2){
+        tipoMostrado = "Seguridad";
+        }else if(tipoFiltrado == 3){
+        tipoMostrado = "Educación";
+        }else if(tipoFiltrado == 4){
+        tipoMostrado = "Emergencia";
+        }else{
+        tipoMostrado = "Otro";
+        }        
+        
+        System.out.println("-> Mostrando los reclamos de tipo [" + tipoMostrado + "]");
+        listita.mostrarPorTipoReclamo(tipoMostrado);
+        
     }
     
     
@@ -252,7 +334,7 @@ public class Main {
         int codigoUnico = leerEnteroSeguro(sc);
         
         // Verificar que el código sea único
-        while(arbolito.buscar(codigoUnico) != null){
+        while(listita.buscarReclamo(codigoUnico) != null){
             System.out.println("[Error] Ese código ya existe. Ingrese uno distinto: ");
             codigoUnico = leerEnteroSeguro(sc);
         }
@@ -263,18 +345,38 @@ public class Main {
         System.out.println("Ingrese RUT del ciudadano: ");
         String rut = sc.nextLine();
 
-        System.out.println("Ingrese tipo de reclamo: ");
-        String tipoReclamo = sc.nextLine();
+        System.out.println("Tipos de reclamo: ");
+        System.out.println("1. Salud\n2. Seguridad\n3. Educación\n4. Emergencia\n5. Otro\nSeleccione tipo de reclamo: ");
+        
+        int tipoElegido = leerEnteroSeguro(sc);
+        
+        if(tipoElegido < 1 || tipoElegido > 5){
+            System.out.println("[Error] Opción inválida."); 
+            return;
+        }
+        
+        String tipoReclamo;
+        
+        if(tipoElegido == 1){
+        tipoReclamo = "Salud";
+        }else if(tipoElegido == 2){
+        tipoReclamo = "Seguridad";
+        }else if(tipoElegido == 3){
+        tipoReclamo = "Educación";
+        }else if(tipoElegido == 4){
+        tipoReclamo = "Emergencia";
+        }else{
+        tipoReclamo = "Otro";
+        }
+        
 
         System.out.println("Ingrese una descripción: ");
         String descripcion = sc.nextLine();
 
         System.out.println("Ingrese fecha de ingreso (DD/MM/AAAA): ");
         String fechaIngreso = sc.nextLine();
-        
-        System.out.println("Ingrese estado del reclamo: ");
-        String estadoReclamo = sc.nextLine();
-
+        //listita.MostrarReclamosAvencer(fechaIngreso);        
+       
         System.out.println("Ingrese nivel de prioridad: ");
         int nivelPrioridad = leerEnteroSeguro(sc);
         
@@ -283,14 +385,14 @@ public class Main {
         
         
         Reclamos nuevoReclamo = new Reclamos(codigoUnico, nombre, rut, tipoReclamo, descripcion,
-                fechaIngreso, estadoReclamo, nivelPrioridad, fechaLimite);
+                fechaIngreso, tipoReclamo, nivelPrioridad, fechaLimite);
         
         arbolito.insertar(nuevoReclamo);
         colita.InsertarEnlaCola(nuevoReclamo);
         listita.registrarReclamo(nuevoReclamo);
-        pilita.registrarCambios(nuevoReclamo.getCodigoUnico(), "Reclamo registrado");
+        pilita.registrarCambios(nuevoReclamo.getCodigoUnico(), "Se registró el reclamo.");
     }
-    
+
     //metodo para que no se rompa si ingresan strings en los ints
     private static int leerEnteroSeguro(Scanner sc) {
     while (true) {
@@ -302,5 +404,6 @@ public class Main {
         }
     }
 }
+    
     
 }

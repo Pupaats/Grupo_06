@@ -78,6 +78,7 @@ public class ListaReclamos {
         return null; 
     }
     
+    
    public boolean eliminarReclamo(int codigoUnico){
         NodoLista NodoActual = iniciolista;
         NodoLista NodoAnterior = null;
@@ -106,6 +107,8 @@ public class ListaReclamos {
         return false;
     }    
     
+    /*Muestra todos los reclamos ordenados por prioridad usando el InsertionSort
+     tiene de complejidad el O(n^2) por el ordenamiento cuadratico*/
     public void consultarReclamos(){
         NodoLista NodoActual = iniciolista;
         
@@ -121,67 +124,128 @@ public class ListaReclamos {
     }
     
     public int obtenerTamaño(){
-        return cantidadReclamos; // cambio para que sea o(1)
+        return cantidadReclamos; //cambio para que sea o(1)
     }
     
-    // Extra ---> Eliminar luego
     public void mostrarCodigos(){
         NodoLista NodoActual = iniciolista;
         
         while(NodoActual != null){
-            System.out.println("Codigo: [" + NodoActual.reclamo.getCodigoUnico() + "]");
+            System.out.println("[CÓDIGO: " + NodoActual.reclamo.getCodigoUnico() +"]"+
+                    " A nombre de: " + NodoActual.reclamo.getNombre() +" ("+NodoActual.reclamo.getEstadoReclamo()+")"); 
             NodoActual = NodoActual.siguiente;
         }
         
     }    
+
+     public void mostrarPorTipoReclamo(String tipo){
+        NodoLista NodoActual = iniciolista;
+        boolean encontrado = false;
+        
+        while(NodoActual != null){
+            if(NodoActual.reclamo.getTipoReclamo().equalsIgnoreCase(tipo)){
+                NodoActual.reclamo.mostrarInfo();
+                encontrado = true;
+            }
+            NodoActual = NodoActual.siguiente;
+        }
+        
+        // Si no se encontraron reclamos
+        if(encontrado == false){
+            System.out.println("No existen reclamos de este tipo.");
+        }
+    }
+
     
     public void MostrarReclamosAvencer(String fechaActual){
         if(iniciolista==null){
             return;
         }
 
-        int diaslimitereclamo=7;
+        int diaslimitereclamo=31; // 7
+        int aniosistema=2026;
 
-        String[] divisor_mes_dia=fechaActual.split("/");
-        int diaactual=Integer.parseInt(divisor_mes_dia[0]);
-        int mesactual=Integer.parseInt(divisor_mes_dia[1]);
+
+        //Se almacenan los datos de la fecha en indices para luego trabajar con ellos como enteros para finalmente evaluar su validez.
+        String[] divisor_mes_dia_anio=fechaActual.split("/");
+        int diaactual=Integer.parseInt(divisor_mes_dia_anio[0]);
+        int mesactual=Integer.parseInt(divisor_mes_dia_anio[1]);
+        int anioactual=Integer.parseInt(divisor_mes_dia_anio[2]);
+
+         if(anioactual != aniosistema){
+            System.out.println("No es posible agregar el reclamo, La fecha ingresada no corresponde al anio actual (" + aniosistema + ").");
+            return;
+        }
+
+         
+         //Guardamos los reclamos en arreglos para ordenarlos según los dias restantes
+         Reclamos[] arrReclamos = new Reclamos[cantidadReclamos];
+         int[] arrDias = new int[cantidadReclamos];
+         int cantidad = 0;
 
         NodoLista NodoActual=iniciolista;
          while(NodoActual != null){
             Reclamos reclamoActual = NodoActual.reclamo;
             
-            // Se separa la fecha que el usuario ingresa (si se respeta el formato solicitado XD) con split y trabajar con ellos como en datos aparte
+            // Ignorar los reclamos ya atendidos
+            if(!reclamoActual.getEstadoReclamo().equalsIgnoreCase("Pendiente")){
+                NodoActual = NodoActual.siguiente;
+                continue;
+            }
+            
+            //Se separa la fecha que el usuario ingresa (si se respeta el formato solicitado XD) con split y trabajar con ellos como en datos aparte
             String[] almacenadordedatos = reclamoActual.getFechaLimite().split("/");
             int diasmaximos= Integer.parseInt(almacenadordedatos[0]);
             int mesmaximo = Integer.parseInt(almacenadordedatos[1]);
+            int aniomaximo= Integer.parseInt(almacenadordedatos[2]);
+        
+
+            //Si el año es diferente al actual, evita el ingreso del reclamo
+            if(aniomaximo != aniosistema){
+                /*System.out.println("Lo sentimos, el reclamo con el codigo: " + reclamoActual.getCodigoUnico() + 
+                ", no podra ser evaluado debido a que es diferente al anio actual: " + aniosistema );*/
+                NodoActual = NodoActual.siguiente;
+                continue; //se usa continue porque los siguientes reclamos podrian  ser validos
+            }
+            
+            //Evalua que la resta de los meses (mes reclamo del usuario menos el mes actual 
+            //ejemplo hoy 28/06/26) no hayan pasado el mes actual o lo hayan superado por mas 1 mes
+            if(mesmaximo - mesactual < 0 || mesmaximo - mesactual > 1){
+                /*System.out.println("Este reclamo no sera evaluado: "+ reclamoActual.getCodigoUnico() + ". 
+                Debido a que excede la fecha limite de mas de 1 mes de diferencia.");*/
+                NodoActual = NodoActual.siguiente;
+                continue; //se usa continue porque los siguientes reclamos podrian ser validos
+            }
             
             int diasRestantes;
             if(mesmaximo == mesactual){
                 diasRestantes = diasmaximos - diaactual;
             }else{
                 /*
-                    Basicamente esto es un caso en donde si la fecha limite cae en el mes posterior: se adcionan los dias del mes actual mas los del posterior
+                Basicamente esto es un caso en donde si la fecha limite cae en el mes posterior
+                se adcionan los dias del mes actual mas los del posterior
                  */
-                diasRestantes = (30 - diaactual) + diasmaximos;
+                diasRestantes = (31 - diaactual) + diasmaximos; // 30
             }
             
-            //si diasrestantes es menor a 0, se imprime el dia eliminando el signo
-            if(diasRestantes <=diaslimitereclamo){
-                reclamoActual.mostrarInfo();
-                
-                if(diasRestantes < 0){
-                    System.out.println("El reclamo ha vencido hace: " + Math.abs(diasRestantes));
-                }else if(diasRestantes == 0){
-                    System.out.println("URGENTE, este reclamo finaliza el dia de hoy. ATENDER PRONTO");
-                }else{
-                    System.out.println("El reclamo vence en los siguientes dias: "+diasRestantes);
-                }
+            if(diasRestantes <= diaslimitereclamo){
+                arrReclamos[cantidad] = reclamoActual;
+                arrDias[cantidad] = diasRestantes;
+                cantidad++;
             }
             
-            NodoActual = NodoActual.siguiente;
+            
+        NodoActual = NodoActual.siguiente;   
         }
-
-
+         
+         Ordenamiento.InsertionFecha(arrReclamos, arrDias, cantidad);
+        
+         for(int i=0; i<cantidad; i++){
+             Reclamos reclamo = arrReclamos[i];
+             int dias  = arrDias[i];
+             reclamo.mostrarInfo(dias);
+            }       
+        }
+    
     }
     
-}

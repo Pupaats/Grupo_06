@@ -68,31 +68,22 @@ public class Ordenamiento {
         return indiceMin + 1; 
     }
     
-    public static void Burbuja (int[] arr) {
-        int n = arr.length;
-        for (int i = 0; i < n - 1; i++)
-            for (int j = 0; j < n-i - 1; j++){
-                  if (arr [j] > arr[j + 1]) {
-                     int temp = arr[j];
-                     arr[j] = arr[j + 1];
-                     arr[j + 1] = temp;
-            }
-        }
-    }
-    public static void Insercion (int[] arr){
-        int n = arr.length;
-        for(int i = 1; i < n; ++i) {
-            int key = arr[i];
-            int j = i - 1; // Corregi que no restaba, antes era un j = i = 1 
-        // Mueve los elementos mayores a key mas adelante
-            while(j >= 0 && arr[j] > key) {
-            arr[j+1] = arr[j];
-            j = j - 1;
-            }
-            arr[j+1] = key;
+    public static void InsertionFecha(Reclamos[] arr, int[] dias, int n){        
+        for(int i=1; i<n; i++){
+            Reclamos keyReclamo = arr[i];
+            int keyDias = dias[i];
+            int j = i-1;
             
+            while(j >= 0 && dias[j] > keyDias){
+                arr[j+1] = arr[j];
+                dias[j+1] = dias[j];
+                j--;
+            }
+            arr[j+1] = keyReclamo;
+            dias[j+1] = keyDias;
         }
     }
+    
     public static void imprimir(int[] array) {
         for (int numero : array) {
             System.out.print(numero + " ");
@@ -100,4 +91,3 @@ public class Ordenamiento {
         System.out.println();
     }
 }
-
