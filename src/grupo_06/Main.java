@@ -14,19 +14,22 @@ public class Main {
         ListaReclamos listita = new ListaReclamos();
         Pila pilita = new Pila();
         
-        Reclamos test1 = new Reclamos(123, "Señor Wylie", "12.345.678-9", "Salud", "Esta enfermo", "21/06/2026", "Pendiente", 2, "01/07/2026");
+        Reclamos test1 = new Reclamos(123, "Josué Sepúlveda", "12.345.678-9", "Salud", "Esta enfermo", "21/06/2026",
+                "Pendiente", 2, "29/06/2026"); 
         arbolito.insertar(test1);
         colita.InsertarEnlaCola(test1);
         listita.registrarReclamo(test1);
         pilita.registrarCambios(test1.getCodigoUnico(), "Se registró el reclamo.");
         
-        Reclamos test2 = new Reclamos(666, "Juan Fuentes", "98.765.432-1", "Seguridad", "Lo asaltaron :v", "21/06/2026", "Pendiente", 1, "30/06/2026");
+        Reclamos test2 = new Reclamos(666, "Francisco Saavedra", "98.765.432-1", "Seguridad", "Lo asaltaron", 
+                "21/06/2026", "Pendiente", 1, "30/06/2026");
         arbolito.insertar(test2);
         colita.InsertarEnlaCola(test2);
         listita.registrarReclamo(test2);        
         pilita.registrarCambios(test2.getCodigoUnico(), "Se registró el reclamo.");
         
-        Reclamos test3 = new Reclamos(712, "Pedro Pro", "98.765.432-1", "Otro", "Descripcion pepe", "21/06/2026", "Pendiente", 3, "12/08/2026");
+        Reclamos test3 = new Reclamos(712, "Aaron Villagra", "12.412.123-3", "Otro", "Caida grave", 
+                "21/06/2026", "Pendiente", 3, "25/06/2026");
         arbolito.insertar(test3);
         colita.InsertarEnlaCola(test3);
         listita.registrarReclamo(test3);        
@@ -258,7 +261,7 @@ public class Main {
 
 
         System.out.println("\n== Menú Consultas ==");
-        System.out.println("1. Mostrar reclamos próximos a vencer");
+        System.out.println("1. Mostrar reclamos próximos a vencer (31 días)");
         System.out.println("2. Mostrar todos (Ordenado por prioridad)");
         System.out.println("3. Filtrar por tipo de reclamo");
         System.out.println("4. Buscar reclamo por código único");
