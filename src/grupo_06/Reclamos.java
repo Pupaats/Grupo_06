@@ -118,5 +118,29 @@ public class Reclamos {
             System.out.println("FECHA LÍMITE: " + fechaLimite + "\n");
         }
         
-      
+        // Sobrecarga para mostrar si esta próximo a vencer
+        public void mostrarInfo(int diasRestantes){
+            System.out.println("\n===================================");
+            System.out.println("INFORMACIÓN DEL RECLAMO CÓDIGO [" + getCodigoUnico() + "]");
+            System.out.println("--------------ATENCIÓN-------------");    
+            
+            if(diasRestantes<0){
+                System.out.println("VENCIDO HACE: " + Math.abs(diasRestantes) + " DÍAS");
+            }else if(diasRestantes==0){
+                System.out.println("VENCE HOY");
+            }else{
+                System.out.println("VENCE EN: " + diasRestantes + " días");
+            }
+            
+            System.out.println("ESTADO: " + estadoReclamo);    
+            System.out.println("PRIORIDAD: " + nivelPrioridad);    
+            System.out.println("---------------DATOS---------------");    
+            System.out.println("NOMBRE: " + Nombre);
+            System.out.println("RUT: " + Rut);           
+            System.out.println("TIPO: " + tipoReclamo);
+            System.out.println("DESCRIPCION: " + descripcion);
+            System.out.println("FECHA DE INGRESO: " + fechaIngreso);
+            System.out.println("FECHA LÍMITE: " + fechaLimite + "\n");
+        }
+        
 }
