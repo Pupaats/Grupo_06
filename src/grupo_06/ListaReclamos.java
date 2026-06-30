@@ -177,9 +177,21 @@ public class ListaReclamos {
             return;
         }
 
+         
+         // Guardamos los reclamos en arreglos para ordenarlos según los dias restantes
+         Reclamos[] arrReclamos = new Reclamos[cantidadReclamos];
+         int[] arrDias = new int[cantidadReclamos];
+         int cantidad = 0;
+
         NodoLista NodoActual=iniciolista;
          while(NodoActual != null){
             Reclamos reclamoActual = NodoActual.reclamo;
+            
+            // Ignorar los reclamos ya atendidos
+            if(!reclamoActual.getEstadoReclamo().equalsIgnoreCase("Pendiente")){
+                NodoActual = NodoActual.siguiente;
+                continue;
+            }
             
             // Se separa la fecha que el usuario ingresa (si se respeta el formato solicitado XD) con split y trabajar con ellos como en datos aparte
             String[] almacenadordedatos = reclamoActual.getFechaLimite().split("/");
@@ -212,24 +224,24 @@ public class ListaReclamos {
                 diasRestantes = (31 - diaactual) + diasmaximos; // 30
             }
             
-            //si diasrestantes es menor a 0, se imprime el dia eliminando el signo
-            if(diasRestantes <=diaslimitereclamo){
-                reclamoActual.mostrarInfo();
-                
-                if(diasRestantes < 0){
-                    System.out.println("El reclamo ha vencido hace: " + Math.abs(diasRestantes));
-                }else if(diasRestantes == 0){
-                    System.out.println("URGENTE, este reclamo finaliza el dia de hoy. ATENDER PRONTO");
-                }else{
-                    System.out.println("El reclamo vence en los siguientes dias: "+diasRestantes);
-                }
+            if(diasRestantes <= diaslimitereclamo){
+                arrReclamos[cantidad] = reclamoActual;
+                arrDias[cantidad] = diasRestantes;
+                cantidad++;
             }
             
-            NodoActual = NodoActual.siguiente;
+            
+        NodoActual = NodoActual.siguiente;   
         }
+         
+         Ordenamiento.InsertionFecha(arrReclamos, arrDias, cantidad);
         
+         for(int i=0; i<cantidad; i++){
+             Reclamos reclamo = arrReclamos[i];
+             int dias  = arrDias[i];
+             reclamo.mostrarInfo(dias);
+            }       
+        }
     
-                
     }
     
-}
