@@ -1,6 +1,5 @@
 package grupo_06;
 // Eliminamos el codigoAscii ya que nos daba problemas  :(
-// Usamos trim() y equalsIgnoreCase() para evitar errores por espacios invisibles
 public class Arbol {
    
     private NodoArbol raiz;
